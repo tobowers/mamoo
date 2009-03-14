@@ -1,11 +1,13 @@
 if (!("MBX" in window)) {
-    /** @namespace */
+    /** @namespace 
+        @ignore
+    */
     MBX = {};
 }
 
 /**
     Create and extend controllers
-    @namespace
+    @class
 */
 MBX.JsController = (function () {
     /**
@@ -27,13 +29,10 @@ MBX.JsController = (function () {
     var jsElementClass = '.js_updateable';
     
     /**
-        for creating a controller
-        @class prototype of all controllers
+        The creator of a single JsController
+        @constructor
     */
     JsController = function (name, opts) {
-        /**
-            @default {}
-        */
         opts = opts || {};
         if (!name) {
             throw new Error("A name must be specified");
@@ -55,7 +54,7 @@ MBX.JsController = (function () {
     };
     
     JsController.prototype = 
-        /** @lends JsController */
+        /** @lends JsController# */
         {
         /**
             @private
@@ -141,6 +140,7 @@ MBX.JsController = (function () {
     /**
         This is mostly used internally and is fired on MBX everytime a controller is created
         @memberOf MBX.JsController
+        @name MBX.JsController.Event
     */
     publicObj.Event = {
         newController: "new_controller",

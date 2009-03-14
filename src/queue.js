@@ -1,5 +1,5 @@
 /** A function queue that will only execute at *most* every interval miliseconds.
-    @namespace
+    @class
     @example
       myQueue = MBX.Queue.create({ interval: 500 });
       myQueue.add(function () {
@@ -10,10 +10,10 @@ MBX.Queue = MBX.JsModel.create("Queue", {
     
     /**
         Instances of a Queue
-        @name MBX.Queue#instance
+        @name MBX.Queue#
         @class A single instance of a MBX.Queue
     */
-    instanceMethods: /** @extends MBX.Queue#instance */ {
+    instanceMethods: /** @lends MBX.Queue# */ {
         defaults: {
             interval: 1000,
             functions: [],

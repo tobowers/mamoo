@@ -8,7 +8,7 @@
 */
 
 if (!("MBX" in window)) {
-    /** @namespace
+    /** @namespace 
         @ignore
     */
     MBX = {};
@@ -29,7 +29,7 @@ MBX.Constructor = function (o) {
 
 /**
     Use this to create instances of models and extend all models (and instances of all models)
-    @namespace
+    @class
 */
 MBX.JsModel = (function () {
     /**
@@ -143,7 +143,7 @@ MBX.JsModel = (function () {
     };
     
     /** 
-        @class the constructor of a new Model
+        @class A single instance of MBX.JsModel
         @constructor
         @throws an error if there's no name, a name already exists or you specified a primaryKey and it wasn't a string
     */
@@ -306,7 +306,6 @@ MBX.JsModel = (function () {
             @param {Object} attrs methods and attributes that you want to extend all instances with
         */
         extendInstances: function (attrs) {
-            /** @default {} */
             attrs = attrs || {};
             Object.extend(this.prototypeObject, attrs);
         },
@@ -487,7 +486,7 @@ MBX.JsModel = (function () {
     /**
            Destroy a controller and unsubscribe its event listeners
            @param {String} name the name of the controller
-           @name MBX.JsController.destroyModel
+           @name MBX.JsModel.destroyModel
            @function
    */
     publicObj.destroyModel = function (name) {

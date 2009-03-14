@@ -29,8 +29,11 @@ MBX.JsController = (function () {
     var jsElementClass = '.js_updateable';
     
     /**
-        The creator of a single JsController
-        @constructor
+        The instance that gets created from calling
+        MBX.JsController.create(name, opts)
+        @see MBX.JsController
+        @name JsController
+        @class
     */
     JsController = function (name, opts) {
         opts = opts || {};
@@ -54,12 +57,22 @@ MBX.JsController = (function () {
     };
     
     JsController.prototype = 
-        /** @lends JsController# */
+        /** @lends JsController */
         {
         /**
-            @private
+            If you have passed in a function for onInstanceChange
+            then this will pass the object and the key that changed to
+            your function
             @requires MBX.JsModel
             @requires this.model
+            @see JsModel#instance
+            @example
+              myController = MBX.JsController.create("myController", {
+                  onInstanceChange: function (modelInstance, key) {
+                      // where key will be the attribute (string)
+                      // that has changed on the modelInstance (JsModel#instance)
+                  }
+              });
         */
         _onInstanceChange: function (evt) {
             if (this.onInstanceChange) {

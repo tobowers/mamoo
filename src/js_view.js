@@ -136,12 +136,13 @@ MBX.JsView = (function () {
             var newEvent = this.model.Event.newInstance;
             var destroyEvent = this.model.Event.destroyInstance;
             var attributeEvent = this.model.Event.changeAttribute;
-
+            var defer = this.looselyCoupled;
+            
             this.eventSubscriptions = [];
-            this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, changeEvent, this._onInstanceChange.bind(this)));
-            this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, newEvent, this._onInstanceCreate.bind(this)));
-            this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, destroyEvent, this._onInstanceDestroy.bind(this)));
-            this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, attributeEvent, this._onAttributeChange.bind(this)));
+            this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, changeEvent, this._onInstanceChange.bind(this), {defer: defer}));
+            this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, newEvent, this._onInstanceCreate.bind(this), {defer: defer}));
+            this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, destroyEvent, this._onInstanceDestroy.bind(this), {defer: defer}));
+            this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, attributeEvent, this._onAttributeChange.bind(this), {defer: defer}));
         },
         
         /** return the CSS class for the model associated with this view

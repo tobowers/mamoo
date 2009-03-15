@@ -1,0 +1,20 @@
+.mamoo h1 {
+    font-weight: bold;
+    font-size: 2em;
+}
+
+.mamoo .sidebar {
+    padding: 1em;
+}
+
+.mamoo #message_form {
+    margin-top: 2em;
+}
+
+.mamoo #message_form textarea, .mamoo #message_form button, .mamoo #message_form label {
+    display: block;
+}
+
+.mamoo #ft {
+    margin-top: 4em;
+}

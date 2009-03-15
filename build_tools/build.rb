@@ -11,3 +11,7 @@ File.open("#{directory}/../#{filename}", "w") do |file|
     file << JsminImproved.jsmin(File.read(filename))
   end
 end
+
+puts "building documentation"
+
+`rm -rf #{directory}/../docs && cd #{directory}/jsdoc-toolkit && java -jar jsrun.jar app/run.js -t=templates/jsdoc -d=../../docs/ ../../src/`

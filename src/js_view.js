@@ -179,13 +179,19 @@ MBX.JsView = (function () {
     };
     
     /** create a new view handler... specify a model and some
-        functions and some great magic happens
+        functions and some great magic happens.
+        
+        If your view listens to a model, but you are not dependent on real-time updates,
+        you can add the option "looselyCoupled: true" and all updates will be done with
+        setTimeout, which will be a performance enhancement.
+        
         @name MBX.JsView.create
         @function
         @param {Object} opts the various options specified for a view
         @example
             MBX.JsView.create({
                 model: MBX.DesktopUpload,
+                looselyCoupled: false, // false is the default
                 onCreate: function (upload) {
                     //create the upload
                 },

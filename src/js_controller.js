@@ -178,7 +178,7 @@ MBX.JsController = (function () {
         
         If your controller listens to a model, but you are not dependent on real-time updates,
         you can add the option "looselyCoupled: true" and all updates will be done with
-        setTimeout... which will be a performance enhancement.
+        setTimeout, which will be a performance enhancement.
           
         @name MBX.JsController.create
         @param {String} name the name of the controller
@@ -187,6 +187,7 @@ MBX.JsController = (function () {
         @function
         @example
           MBX.DesktopUploadController = MBX.JsController.create("DesktopUpload", {
+              looselyCoupled: false, // false is the default
               ANewMethod: function (something) {
                   return something;
               }

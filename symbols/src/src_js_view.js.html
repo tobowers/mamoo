@@ -76,8 +76,8 @@
 <span class='line'> 69</span> </span><span class="WHIT">            </span><span class="NAME">this._subscribeToEvents</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 70</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'> 71</span> </span><span class="WHIT">        
-<span class='line'> 72</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">this.afterCreate</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 73</span> </span><span class="WHIT">            </span><span class="NAME">this.afterCreate</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 72</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">this.initialize</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 73</span> </span><span class="WHIT">            </span><span class="NAME">this.initialize</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 74</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
 <span class='line'> 75</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'> 76</span> </span><span class="WHIT">    
@@ -143,178 +143,185 @@
 <span class='line'>136</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.model.Event.newInstance</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>137</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">destroyEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.model.Event.destroyInstance</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>138</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">attributeEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.model.Event.changeAttribute</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>139</span> 
-<span class='line'>140</span> </span><span class="WHIT">            </span><span class="NAME">this.eventSubscriptions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>141</span> </span><span class="WHIT">            </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">changeEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onInstanceChange.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>142</span> </span><span class="WHIT">            </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">newEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onInstanceCreate.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>143</span> </span><span class="WHIT">            </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">destroyEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onInstanceDestroy.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>144</span> </span><span class="WHIT">            </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">attributeEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onAttributeChange.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>145</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>146</span> </span><span class="WHIT">        
-<span class='line'>147</span>         </span><span class="COMM">/** return the CSS class for the model associated with this view
-<span class='line'>148</span>             @param {String} prePend any string to prepend to the model
-<span class='line'>149</span>             @see MBX.JsView.modelCSS
-<span class='line'>150</span>         */</span><span class="WHIT">
-<span class='line'>151</span> </span><span class="WHIT">        </span><span class="NAME">modelCSS</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">prePend</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>152</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">MBX.JsView.modelCSS</span><span class="PUNC">(</span><span class="NAME">this.model</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">prePend</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>153</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>154</span> </span><span class="WHIT">        
-<span class='line'>155</span>         </span><span class="COMM">/** given an instance of a model, give the recommended instance class
-<span class='line'>156</span>             @see MBX.JsView.cssForInstance
-<span class='line'>157</span>         */</span><span class="WHIT">
-<span class='line'>158</span> </span><span class="WHIT">        </span><span class="NAME">cssForInstance</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">instance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">prePend</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>159</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">MBX.JsView.cssForInstance</span><span class="PUNC">(</span><span class="NAME">instance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">prePend</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>160</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>161</span> </span><span class="WHIT">        
-<span class='line'>162</span>         </span><span class="COMM">/** given an instance, return the relevent elements
-<span class='line'>163</span>             @param {JsModel#instance} instance the instance you want to find elements
-<span class='line'>164</span>             @returns {Array} an array of extended dom elements that match the relevent class names
-<span class='line'>165</span>         */</span><span class="WHIT">
-<span class='line'>166</span> </span><span class="WHIT">        </span><span class="NAME">elementsFromInstance</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">instance</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>167</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$$</span><span class="PUNC">(</span><span class="NAME">this.modelCSS</span><span class="PUNC">(</span><span class="STRN">"."</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">cssForInstance</span><span class="PUNC">(</span><span class="STRN">"."</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>168</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>169</span> </span><span class="WHIT">        
-<span class='line'>170</span>         </span><span class="COMM">/** return all the various collections of dom elements that have the appropriate classes
-<span class='line'>171</span>             @returns {Array} array of extended dom elements that match collection CSS
-<span class='line'>172</span>         */</span><span class="WHIT">
-<span class='line'>173</span> </span><span class="WHIT">        </span><span class="NAME">domCollections</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>174</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">findString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">jsElementClass</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.modelCSS</span><span class="PUNC">(</span><span class="STRN">"."</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'.collection'</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">join</span><span class="PUNC">(</span><span class="STRN">''</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>175</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$$</span><span class="PUNC">(</span><span class="NAME">findString</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>176</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>177</span> </span><span class="WHIT">        
-<span class='line'>178</span>     </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>179</span> </span><span class="WHIT">    
-<span class='line'>180</span>     </span><span class="COMM">/** create a new view handler... specify a model and some
-<span class='line'>181</span>         functions and some great magic happens
-<span class='line'>182</span>         @name MBX.JsView.create
-<span class='line'>183</span>         @function
-<span class='line'>184</span>         @param {Object} opts the various options specified for a view
-<span class='line'>185</span>         @example
-<span class='line'>186</span>             MBX.JsView.create({
-<span class='line'>187</span>                 model: MBX.DesktopUpload,
-<span class='line'>188</span>                 onCreate: function (upload) {
-<span class='line'>189</span>                     //create the upload
-<span class='line'>190</span>                 },
-<span class='line'>191</span>                 onChange: function (upload) {
-<span class='line'>192</span>                     // any upload changes
-<span class='line'>193</span>                 },
-<span class='line'>194</span>                 onDestroy: function (upload) {
-<span class='line'>195</span>                     // handle destroys
-<span class='line'>196</span>                 }
-<span class='line'>197</span>             });
-<span class='line'>198</span>     */</span><span class="WHIT">
-<span class='line'>199</span> </span><span class="WHIT">    </span><span class="NAME">self.create</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">opts</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>200</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">View</span><span class="PUNC">(</span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>201</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>202</span> </span><span class="WHIT">    
-<span class='line'>203</span>     </span><span class="COMM">/**
-<span class='line'>204</span>         call extend() to add methods and/or attributes to ALL views
-<span class='line'>205</span>         @param {Object} methsAndAttrs
-<span class='line'>206</span>         @name MBX.JsView.extend
-<span class='line'>207</span>         @function
-<span class='line'>208</span>     */</span><span class="WHIT">
-<span class='line'>209</span> </span><span class="WHIT">    </span><span class="NAME">self.extend</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>210</span> </span><span class="WHIT">        </span><span class="NAME">methsAndAttrs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">methsAndAttrs</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>211</span> </span><span class="WHIT">        </span><span class="NAME">Object.extend</span><span class="PUNC">(</span><span class="NAME">View.prototype</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>212</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>213</span> </span><span class="WHIT">    
-<span class='line'>214</span>     </span><span class="COMM">/** Added to prototype elements when a view is created
-<span class='line'>215</span>         allows you to observe particular keys of a model object
-<span class='line'>216</span>         @name MBX.JsView.updatesOn
-<span class='line'>217</span>         @function
-<span class='line'>218</span>         @param {JsModel#instance} obj the model instance to watch
-<span class='line'>219</span>         @param {String} key the key to watch
-<span class='line'>220</span>         @param {Object} opts handler or preProcess functions to execute
-<span class='line'>221</span>         @returns {DOM element} the dom element that was called (for chaining)
-<span class='line'>222</span>     */</span><span class="WHIT">
-<span class='line'>223</span> </span><span class="WHIT">    </span><span class="NAME">self.updatesOn</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">obj</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>224</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">obj</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>225</span> </span><span class="WHIT">            </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">"You must specify a key or an object with updatesOn"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>226</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>227</span> </span><span class="WHIT">        </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>228</span> </span><span class="WHIT">        </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>229</span> </span><span class="WHIT">        
-<span class='line'>230</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">changeHandler</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>231</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">obj.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>232</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">opts.preProcess</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>233</span> </span><span class="WHIT">                </span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">opts.preProcess</span><span class="PUNC">(</span><span class="NAME">obj</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">content</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>234</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>235</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">opts.handler</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>236</span> </span><span class="WHIT">                </span><span class="NAME">opts.handler</span><span class="PUNC">(</span><span class="NAME">obj</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">content</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>237</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>238</span> </span><span class="WHIT">                </span><span class="NAME">element.update</span><span class="PUNC">(</span><span class="NAME">content</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>239</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>240</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>241</span> </span><span class="WHIT">        
-<span class='line'>242</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sub</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">obj</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"_changed"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">changeHandler</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>243</span> </span><span class="WHIT">        
-<span class='line'>244</span>         </span><span class="NAME">element.__JsViewSubscriptions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">element.__JsViewSubscriptions</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">       
-<span class='line'>245</span>         </span><span class="NAME">element.__JsViewSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">sub</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>246</span> </span><span class="WHIT">        
-<span class='line'>247</span>         </span><span class="NAME">obj.__JsViewSubscriptions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">obj.__JsViewSubscriptions</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>248</span> </span><span class="WHIT">        </span><span class="NAME">obj.__JsViewSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">sub</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>249</span> </span><span class="WHIT">        
-<span class='line'>250</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">opts.updateNow</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>251</span> </span><span class="WHIT">            </span><span class="NAME">changeHandler</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>252</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>139</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">defer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.looselyCoupled</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>140</span> </span><span class="WHIT">            
+<span class='line'>141</span>             </span><span class="NAME">this.eventSubscriptions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">            </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">changeEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onInstanceChange.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">defer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">defer</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">            </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">newEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onInstanceCreate.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">defer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">defer</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">            </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">destroyEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onInstanceDestroy.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">defer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">defer</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">            </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">attributeEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onAttributeChange.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">defer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">defer</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">        
+<span class='line'>148</span>         </span><span class="COMM">/** return the CSS class for the model associated with this view
+<span class='line'>149</span>             @param {String} prePend any string to prepend to the model
+<span class='line'>150</span>             @see MBX.JsView.modelCSS
+<span class='line'>151</span>         */</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">        </span><span class="NAME">modelCSS</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">prePend</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">MBX.JsView.modelCSS</span><span class="PUNC">(</span><span class="NAME">this.model</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">prePend</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>154</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>155</span> </span><span class="WHIT">        
+<span class='line'>156</span>         </span><span class="COMM">/** given an instance of a model, give the recommended instance class
+<span class='line'>157</span>             @see MBX.JsView.cssForInstance
+<span class='line'>158</span>         */</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">        </span><span class="NAME">cssForInstance</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">instance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">prePend</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">MBX.JsView.cssForInstance</span><span class="PUNC">(</span><span class="NAME">instance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">prePend</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">        
+<span class='line'>163</span>         </span><span class="COMM">/** given an instance, return the relevent elements
+<span class='line'>164</span>             @param {JsModel#instance} instance the instance you want to find elements
+<span class='line'>165</span>             @returns {Array} an array of extended dom elements that match the relevent class names
+<span class='line'>166</span>         */</span><span class="WHIT">
+<span class='line'>167</span> </span><span class="WHIT">        </span><span class="NAME">elementsFromInstance</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">instance</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$$</span><span class="PUNC">(</span><span class="NAME">this.modelCSS</span><span class="PUNC">(</span><span class="STRN">"."</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">cssForInstance</span><span class="PUNC">(</span><span class="STRN">"."</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>170</span> </span><span class="WHIT">        
+<span class='line'>171</span>         </span><span class="COMM">/** return all the various collections of dom elements that have the appropriate classes
+<span class='line'>172</span>             @returns {Array} array of extended dom elements that match collection CSS
+<span class='line'>173</span>         */</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">        </span><span class="NAME">domCollections</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">findString</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">jsElementClass</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.modelCSS</span><span class="PUNC">(</span><span class="STRN">"."</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="STRN">'.collection'</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">join</span><span class="PUNC">(</span><span class="STRN">''</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">$$</span><span class="PUNC">(</span><span class="NAME">findString</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>177</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>178</span> </span><span class="WHIT">        
+<span class='line'>179</span>     </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>180</span> </span><span class="WHIT">    
+<span class='line'>181</span>     </span><span class="COMM">/** create a new view handler... specify a model and some
+<span class='line'>182</span>         functions and some great magic happens.
+<span class='line'>183</span>         
+<span class='line'>184</span>         If your view listens to a model, but you are not dependent on real-time updates,
+<span class='line'>185</span>         you can add the option "looselyCoupled: true" and all updates will be done with
+<span class='line'>186</span>         setTimeout, which will be a performance enhancement.
+<span class='line'>187</span>         
+<span class='line'>188</span>         @name MBX.JsView.create
+<span class='line'>189</span>         @function
+<span class='line'>190</span>         @param {Object} opts the various options specified for a view
+<span class='line'>191</span>         @example
+<span class='line'>192</span>             MBX.JsView.create({
+<span class='line'>193</span>                 model: MBX.DesktopUpload,
+<span class='line'>194</span>                 looselyCoupled: false, // false is the default
+<span class='line'>195</span>                 onCreate: function (upload) {
+<span class='line'>196</span>                     //create the upload
+<span class='line'>197</span>                 },
+<span class='line'>198</span>                 onChange: function (upload) {
+<span class='line'>199</span>                     // any upload changes
+<span class='line'>200</span>                 },
+<span class='line'>201</span>                 onDestroy: function (upload) {
+<span class='line'>202</span>                     // handle destroys
+<span class='line'>203</span>                 }
+<span class='line'>204</span>             });
+<span class='line'>205</span>     */</span><span class="WHIT">
+<span class='line'>206</span> </span><span class="WHIT">    </span><span class="NAME">self.create</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">opts</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>207</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">View</span><span class="PUNC">(</span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>208</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>209</span> </span><span class="WHIT">    
+<span class='line'>210</span>     </span><span class="COMM">/**
+<span class='line'>211</span>         call extend() to add methods and/or attributes to ALL views
+<span class='line'>212</span>         @param {Object} methsAndAttrs
+<span class='line'>213</span>         @name MBX.JsView.extend
+<span class='line'>214</span>         @function
+<span class='line'>215</span>     */</span><span class="WHIT">
+<span class='line'>216</span> </span><span class="WHIT">    </span><span class="NAME">self.extend</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>217</span> </span><span class="WHIT">        </span><span class="NAME">methsAndAttrs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">methsAndAttrs</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>218</span> </span><span class="WHIT">        </span><span class="NAME">Object.extend</span><span class="PUNC">(</span><span class="NAME">View.prototype</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>219</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>220</span> </span><span class="WHIT">    
+<span class='line'>221</span>     </span><span class="COMM">/** Added to prototype elements when a view is created
+<span class='line'>222</span>         allows you to observe particular keys of a model object
+<span class='line'>223</span>         @name MBX.JsView.updatesOn
+<span class='line'>224</span>         @function
+<span class='line'>225</span>         @param {JsModel#instance} obj the model instance to watch
+<span class='line'>226</span>         @param {String} key the key to watch
+<span class='line'>227</span>         @param {Object} opts handler or preProcess functions to execute
+<span class='line'>228</span>         @returns {DOM element} the dom element that was called (for chaining)
+<span class='line'>229</span>     */</span><span class="WHIT">
+<span class='line'>230</span> </span><span class="WHIT">    </span><span class="NAME">self.updatesOn</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">obj</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>231</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">!</span><span class="NAME">obj</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">!</span><span class="NAME">key</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>232</span> </span><span class="WHIT">            </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">"You must specify a key or an object with updatesOn"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>233</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>234</span> </span><span class="WHIT">        </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>235</span> </span><span class="WHIT">        </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>236</span> </span><span class="WHIT">        
+<span class='line'>237</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">changeHandler</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">obj.get</span><span class="PUNC">(</span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">opts.preProcess</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">                </span><span class="NAME">content</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">opts.preProcess</span><span class="PUNC">(</span><span class="NAME">obj</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">content</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">opts.handler</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">                </span><span class="NAME">opts.handler</span><span class="PUNC">(</span><span class="NAME">obj</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">content</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT"> </span><span class="KEYW">else</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">                </span><span class="NAME">element.update</span><span class="PUNC">(</span><span class="NAME">content</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>248</span> </span><span class="WHIT">        
+<span class='line'>249</span>         </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">sub</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">obj</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">key</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"_changed"</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">changeHandler</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>250</span> </span><span class="WHIT">        
+<span class='line'>251</span>         </span><span class="NAME">element.__JsViewSubscriptions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">element.__JsViewSubscriptions</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">       
+<span class='line'>252</span>         </span><span class="NAME">element.__JsViewSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">sub</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>253</span> </span><span class="WHIT">        
-<span class='line'>254</span>         </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>255</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>256</span> </span><span class="WHIT">    
-<span class='line'>257</span>     </span><span class="COMM">/** stop updating this instance, all event handlers are removed
-<span class='line'>258</span>         Preferred method of accessing this function is through extended elements
-<span class='line'>259</span>         @name MBX.JsView.stopUpdating
-<span class='line'>260</span>         @function
-<span class='line'>261</span>         @param {DOM Element} element the element to stop observing - this will usually be filled for you by prototype
-<span class='line'>262</span>         @returns {DOM Element} element for chaining
-<span class='line'>263</span>         @example
-<span class='line'>264</span>           $("el").stopUpdating();
-<span class='line'>265</span>     */</span><span class="WHIT">
-<span class='line'>266</span> </span><span class="WHIT">    </span><span class="NAME">self.stopUpdating</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>267</span> </span><span class="WHIT">        </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>268</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element.__JsViewSubscriptions</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>269</span> </span><span class="WHIT">            </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element.__JsViewSubscriptions.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>270</span> </span><span class="WHIT">                </span><span class="NAME">MBX.EventHandler.unsubscribe</span><span class="PUNC">(</span><span class="NAME">element.__JsViewSubscriptions.pop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>271</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>272</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>273</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>274</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>275</span> </span><span class="WHIT">    
-<span class='line'>276</span>     </span><span class="COMM">/** attach a JsModel#instance to this DOM element
-<span class='line'>277</span>         Preferred method of accessing this function is through extended elements
-<span class='line'>278</span>         @name MBX.JsView.assignInstance
-<span class='line'>279</span>         @function
-<span class='line'>280</span>         @example
-<span class='line'>281</span>           $("el").assignInstance(instance);
-<span class='line'>282</span>           $("el").getInstance();  // == instance
-<span class='line'>283</span>     */</span><span class="WHIT">
-<span class='line'>284</span> </span><span class="WHIT">    </span><span class="NAME">self.assignInstance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">instance</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>285</span> </span><span class="WHIT">        </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>286</span> </span><span class="WHIT">        </span><span class="NAME">element.__JsViewMvcInstance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">instance</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>287</span> </span><span class="WHIT">        </span><span class="NAME">element.addClassName</span><span class="PUNC">(</span><span class="NAME">MBX.JsView.modelCSS</span><span class="PUNC">(</span><span class="NAME">instance.parentClass</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>288</span> </span><span class="WHIT">        </span><span class="NAME">element.addClassName</span><span class="PUNC">(</span><span class="NAME">MBX.JsView.cssForInstance</span><span class="PUNC">(</span><span class="NAME">instance</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>289</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>290</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>291</span> </span><span class="WHIT">    
-<span class='line'>292</span>     </span><span class="COMM">/** fetch a JsModel#instance from this DOM element
-<span class='line'>293</span>         Preferred method of accessing this function is through extended elements
-<span class='line'>294</span>         @name MBX.JsView.getInstance
-<span class='line'>295</span>         @function
-<span class='line'>296</span>         @example
-<span class='line'>297</span>           $("el").assignInstance(instance);
-<span class='line'>298</span>           $("el").getInstance();  // == instance
-<span class='line'>299</span>     */</span><span class="WHIT">
-<span class='line'>300</span> </span><span class="WHIT">    </span><span class="NAME">self.getInstance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">instance</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>301</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">element.__JsViewMvcInstance</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>302</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>303</span> </span><span class="WHIT">    
-<span class='line'>304</span>     </span><span class="NAME">Element.addMethods</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>305</span> </span><span class="WHIT">        </span><span class="NAME">updatesOn</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">self.updatesOn</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>306</span> </span><span class="WHIT">        </span><span class="NAME">stopUpdating</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">self.stopUpdating</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>307</span> </span><span class="WHIT">        </span><span class="NAME">assignInstance</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">self.assignInstance</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>308</span> </span><span class="WHIT">        </span><span class="NAME">getInstance</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">self.getInstance</span><span class="WHIT">
-<span class='line'>309</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>254</span>         </span><span class="NAME">obj.__JsViewSubscriptions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">obj.__JsViewSubscriptions</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">        </span><span class="NAME">obj.__JsViewSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">sub</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">        
+<span class='line'>257</span>         </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">opts.updateNow</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">            </span><span class="NAME">changeHandler</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">        
+<span class='line'>261</span>         </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>263</span> </span><span class="WHIT">    
+<span class='line'>264</span>     </span><span class="COMM">/** stop updating this instance, all event handlers are removed
+<span class='line'>265</span>         Preferred method of accessing this function is through extended elements
+<span class='line'>266</span>         @name MBX.JsView.stopUpdating
+<span class='line'>267</span>         @function
+<span class='line'>268</span>         @param {DOM Element} element the element to stop observing - this will usually be filled for you by prototype
+<span class='line'>269</span>         @returns {DOM Element} element for chaining
+<span class='line'>270</span>         @example
+<span class='line'>271</span>           $("el").stopUpdating();
+<span class='line'>272</span>     */</span><span class="WHIT">
+<span class='line'>273</span> </span><span class="WHIT">    </span><span class="NAME">self.stopUpdating</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>274</span> </span><span class="WHIT">        </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>275</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element.__JsViewSubscriptions</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>276</span> </span><span class="WHIT">            </span><span class="KEYW">while</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element.__JsViewSubscriptions.length</span><span class="WHIT"> </span><span class="PUNC">></span><span class="WHIT"> </span><span class="NUMB">0</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>277</span> </span><span class="WHIT">                </span><span class="NAME">MBX.EventHandler.unsubscribe</span><span class="PUNC">(</span><span class="NAME">element.__JsViewSubscriptions.pop</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>278</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>279</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>280</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>281</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>282</span> </span><span class="WHIT">    
+<span class='line'>283</span>     </span><span class="COMM">/** attach a JsModel#instance to this DOM element
+<span class='line'>284</span>         Preferred method of accessing this function is through extended elements
+<span class='line'>285</span>         @name MBX.JsView.assignInstance
+<span class='line'>286</span>         @function
+<span class='line'>287</span>         @example
+<span class='line'>288</span>           $("el").assignInstance(instance);
+<span class='line'>289</span>           $("el").getInstance();  // == instance
+<span class='line'>290</span>     */</span><span class="WHIT">
+<span class='line'>291</span> </span><span class="WHIT">    </span><span class="NAME">self.assignInstance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">instance</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>292</span> </span><span class="WHIT">        </span><span class="NAME">element</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">$</span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>293</span> </span><span class="WHIT">        </span><span class="NAME">element.__JsViewMvcInstance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">instance</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>294</span> </span><span class="WHIT">        </span><span class="NAME">element.addClassName</span><span class="PUNC">(</span><span class="NAME">MBX.JsView.modelCSS</span><span class="PUNC">(</span><span class="NAME">instance.parentClass</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>295</span> </span><span class="WHIT">        </span><span class="NAME">element.addClassName</span><span class="PUNC">(</span><span class="NAME">MBX.JsView.cssForInstance</span><span class="PUNC">(</span><span class="NAME">instance</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>296</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">element</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>297</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>298</span> </span><span class="WHIT">    
+<span class='line'>299</span>     </span><span class="COMM">/** fetch a JsModel#instance from this DOM element
+<span class='line'>300</span>         Preferred method of accessing this function is through extended elements
+<span class='line'>301</span>         @name MBX.JsView.getInstance
+<span class='line'>302</span>         @function
+<span class='line'>303</span>         @example
+<span class='line'>304</span>           $("el").assignInstance(instance);
+<span class='line'>305</span>           $("el").getInstance();  // == instance
+<span class='line'>306</span>     */</span><span class="WHIT">
+<span class='line'>307</span> </span><span class="WHIT">    </span><span class="NAME">self.getInstance</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">element</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">instance</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>308</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">element.__JsViewMvcInstance</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>309</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>310</span> </span><span class="WHIT">    
-<span class='line'>311</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">self</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>312</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>313</span> </span></pre></body></html>
+<span class='line'>311</span>     </span><span class="NAME">Element.addMethods</span><span class="PUNC">(</span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>312</span> </span><span class="WHIT">        </span><span class="NAME">updatesOn</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">self.updatesOn</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>313</span> </span><span class="WHIT">        </span><span class="NAME">stopUpdating</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">self.stopUpdating</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>314</span> </span><span class="WHIT">        </span><span class="NAME">assignInstance</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">self.assignInstance</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>315</span> </span><span class="WHIT">        </span><span class="NAME">getInstance</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">self.getInstance</span><span class="WHIT">
+<span class='line'>316</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>317</span> </span><span class="WHIT">    
+<span class='line'>318</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">self</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>319</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>320</span> </span></pre></body></html>

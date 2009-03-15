@@ -1,7 +1,11 @@
 #Mamoo
 The Motionbox Advanced Model Observer Observer
 
-A light-weight MVC framework for separating concerns (Data model, views, related actions).  It's built on top of [Prototype](http://prototypejs.org) and the [Motionbox EventHandler](http://github.com/tobowers/motionbox-eventhandler). Minimized it's about 13k.
+A light-weight MVC framework for separating concerns (Data model, views, related actions). It also provides a javscript queue system which lines functions up in an array and will execute them at an interval.
+
+Full documentation can be found here: [http://tobowers.github.com/mamoo/](http://tobowers.github.com/mamoo/)
+
+It's built on top of [Prototype](http://prototypejs.org) and the [Motionbox EventHandler](http://github.com/tobowers/motionbox-eventhandler). Minimized it's about 13k.
 
 #introduction
 
@@ -135,7 +139,24 @@ If you want something more complicated, updatesOn will give you that too:
     });
     // this will update the width of "anElement" when instance changes "key" - so... instance.set("key", 20) would change the width of that element to 20%
     
+# Queue
 
+MBX.Queue is a queue system with some simple options
+
+    var queue = MBX.Queue.create({
+        interval: 1000, // the number of miliseconds between fires
+        singleItem: true, // defaults to false - but if it's true, only the latest function added will be kept in the queue.
+    });
+    
+    queue.add(function () {
+        alert("first function!");
+    });
+    queue.add(function () {
+        alert('second func');
+    });
+    queue.start();
+
+Because we specified "singleItem: true" above, *only* 'second func' would get alerted.
 
 # A simple setup
 

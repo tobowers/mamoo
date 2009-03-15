@@ -119,6 +119,22 @@ This is (by convention) where you handle dom-manipulation based on model or inst
         // works the same as controllers
         model: MyModel;
     });
+    
+Views also adds a special "updatesOn" to all dom elements. If you add your object and key to an element, the innerHTML (or anything you want really) can change auto-magically.
+
+All you have to do to update the innerHTML of an element when a value changes on a model instance is this:
+
+    $("anElement").updatesOn(modelInstance, "key");
+
+If you want something more complicated, updatesOn will give you that too:
+
+    $("anElement").updatesOn(instance, "key", {
+        handler: function (instance, element, content) {
+            element.setStyle({'width': content + "%"});
+        }
+    });
+    // this will update the width of "anElement" when instance changes "key" - so... instance.set("key", 20) would change the width of that element to 20%
+    
 
 
 # A simple setup

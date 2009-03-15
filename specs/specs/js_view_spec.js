@@ -22,6 +22,16 @@ Screw.Unit(function() {
             expect(MyView.newAttr).to(equal, "cool");
         });
         
+        it("should call initialize", function () {
+            var called = false;
+            MyModel = MBX.JsView.create({
+                initialize: function () {
+                    called = true;
+                }
+            });
+            expect(called).to(be_true);
+        });
+        
         describe("extended prototype elements", function () {
             
             it("should extend elements", function () {
@@ -270,6 +280,29 @@ Screw.Unit(function() {
             });
             
              
+        });
+        
+        describe("loosely coupled view", function () {
+            before(function() {
+                Screw.MBXlooselyCoupledViewFired = false;
+                MyController = MBX.JsView.create({
+                    model: MyModel,
+                    looselyCoupled: true,
+                    onInstanceCreate: function () {
+                        Screw.MBXlooselyCoupledViewFired = true;
+                    }
+                });
+            });
+            
+            it("should defer the subscription when loosely coupled", function (me) {
+                MyModel.create();
+                expect(Screw.MBXlooselyCoupledViewFired).to(be_false);
+                using(me).wait(2).and_then(function () {
+                    expect(Screw.MBXlooselyCoupledViewFired).to(be_true);
+                });
+            });
+            
+            
         });
         
     });

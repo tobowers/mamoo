@@ -29,14 +29,43 @@ Screw.Unit(function() {
             MBX.JsController.destroyController('PrototypeTestController');
         });
         
-        it("should call afterCreate if it exists", function () {
+        it("should call initialize if it exists", function () {
             var thisController = MBX.JsController.create("ATestController", {
-                afterCreate: function () {
+                initialize: function () {
                     this.anAfterCreateAttr = "cool";
                 }
             });
             expect(thisController.anAfterCreateAttr).to(equal, "cool");
             MBX.JsController.destroyController("ATestController");
+        });
+        
+        describe("loosely coupled controllers", function () {
+            var MyModel;
+            before(function() {
+                Screw.MBXlooselyCoupledFired = false;
+                MyModel = MBX.JsModel.create("MyModel");
+                MyController = MBX.JsController.create("MyModelController", {
+                    model: MyModel,
+                    looselyCoupled: true,
+                    onInstanceCreate: function () {
+                        Screw.MBXlooselyCoupledFired = true;
+                    }
+                });
+            });
+            
+            after(function () {
+                MBX.JsModel.destroyModel("MyModel");
+            });
+            
+            it("should defer the subscription when loosely coupled", function (me) {
+                MyModel.create();
+                expect(Screw.MBXlooselyCoupledFired).to(be_false);
+                using(me).wait(2).and_then(function () {
+                    expect(Screw.MBXlooselyCoupledFired).to(be_true);
+                });
+            });
+            
+            
         });
         
         describe("a new controller with a model", function () {
@@ -60,10 +89,6 @@ Screw.Unit(function() {
                expect(eventSubscriptions[0]).to(equal, [MBX, MyModel.Event.changeInstance]);
                expect(eventSubscriptions[1]).to(equal, [MBX, MyModel.Event.newInstance]);
                expect(eventSubscriptions[2]).to(equal, [MBX, MyModel.Event.destroyInstance]);
-           });
-           
-           it("should be able to find an instance given a valid DOM element", function () {
-               var el = $$(".mymodel .mymodel_")
            });
            
            describe("callbacks", function () {

@@ -9,6 +9,16 @@ Screw.Unit(function() {
             expect(MBX.JsModel.Event.newModel).to_not(be_null);
         });
         
+        it("should call initialize on the model if it exists", function () {
+            var called = false;
+            MyModel = MBX.JsModel.create("MyModel", {
+                initialize: function () {
+                    called = true;
+                }
+            });
+            expect(called).to(be_true);
+        });
+        
         it("should allow you to specify an afterCreate that gets executed after an instance is created", function () {
             MyModel = MBX.JsModel.create("MyModel", {
                 instanceMethods: {

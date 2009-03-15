@@ -128,7 +128,7 @@ MBX.JsController = (function () {
             var newEvent = this.model.Event.newInstance;
             var destroyEvent = this.model.Event.destroyInstance;
             var attributeEvent = this.model.Event.changeAttribute;
-            var defer = this.loosleyCoupled;
+            var defer = this.looselyCoupled;
 
             this.eventSubscriptions = [];
             this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, changeEvent, this._onInstanceChange.bind(this), {defer: defer}));
@@ -174,7 +174,7 @@ MBX.JsController = (function () {
     
     /**
         Controllers allow some decently powerful hooks. You can specify a model, and an
-        onAfterCreate, onInstanceChange, onInstanceDestroy, onInstanceCreate.
+        onInstanceChange, onInstanceDestroy, onInstanceCreate.
         
         If your controller listens to a model, but you are not dependent on real-time updates,
         you can add the option "looselyCoupled: true" and all updates will be done with
@@ -215,8 +215,8 @@ MBX.JsController = (function () {
             throw new Error("A controller with the name of " + name + " is already in use");
         }
         var controller = new JsController(name, opts);
-        if (typeof controller.afterCreate == "function") {
-            controller.afterCreate();
+        if (typeof controller.initialize == "function") {
+            controller.initialize();
         }
         return controller;
     };

@@ -31,11 +31,6 @@ Screw.Unit(function() {
                 queue.add(function () {
                     called++;
                 });
-                
-                // make the event fire right away even though we're allowing the eventhandler
-                // to defer this
-                //TH.setTimeout.mock();
-                
                 expect(MBX.QueueController.subscriptions[queue.primaryKey()]).to_not(be_null);
                 MBX.EventHandler.fireCustom(queue, "timer_complete", {
                     queue: queue

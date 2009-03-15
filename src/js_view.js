@@ -69,8 +69,8 @@ MBX.JsView = (function () {
             this._subscribeToEvents();
         }
         
-        if (typeof this.afterCreate == 'function') {
-            this.afterCreate();
+        if (typeof this.initialize == 'function') {
+            this.initialize();
         }
     };
     

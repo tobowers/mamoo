@@ -5,6 +5,8 @@ A light-weight MVC framework for separating concerns (Data model, views, related
 
 Full documentation can be found here: [http://tobowers.github.com/mamoo/](http://tobowers.github.com/mamoo/)
 
+[Video demonstration can be found on Motionbox](http://www.motionbox.com/video/show/3099deb21614e2c2be/a1f4feb5d95596d8).
+
 It's built on top of [Prototype](http://prototypejs.org) and the [Motionbox EventHandler](http://github.com/tobowers/motionbox-eventhandler). Minimized it's about 13k.
 
 #introduction

@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>
+      Mamoo Example Message List
+    </title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
+    <link rel="stylesheet" href="application.css" type="text/css">
+    
+    <!-- dependencies -->
+    <script type="text/javascript" src="../../dependencies/prototype.js"></script>
+    <script type="text/javascript" src="../../dependencies/event_handler.js"></script>
+    <script type="text/javascript" src="../../mamoo_min.js"></script>
+    
+    <!-- our app begins -->
+    <script type="text/javascript" src="javascript/message_form.js"></script>
+    
+    <script type="text/javascript" src="javascript/message.js"></script>
+    <script type="text/javascript" src="javascript/message_controller.js"></script>
+    <script type="text/javascript" src="javascript/message_view.js"></script>
+    
+    
+  </head>
+  <body class="mamoo">
+    <div id="doc" class="yui-t4">
+      <div id="hd" role="banner">
+        <h1>
+          Mamoo Message List
+        </h1>
+      </div>
+      <div id="bd" role="main">
+        <div id="yui-main">
+          <div class="yui-b">
+            <div class="yui-g">
+              <div class="main">
+                
+                <ol id="message_list">
+                </ol>
+                
+                <form action="#" id="message_form">
+                  <label for="message_body">Create your message:</label>
+                  <textarea id="message_body" name="message_body"></textarea>
+                  <button>
+                    Save
+                  </button>
+                </form>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="yui-b">
+          <div class="sidebar">
+              <p>Number of messages: <span id="message_count">0</span></p>
+          </div>
+        </div>
+      </div>
+      <div id="ft" role="banner">
+        <p>
+          Footer
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

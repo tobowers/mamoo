@@ -72,7 +72,7 @@ changes to attributes.
 
 #Controller
 
-This kinda where the magic happens. Controllers handle the events from models and model instances. You can hook into various model events.  If you can specify a model then you can also specify:
+This is where the magic happens. Controllers handle the events from models and model instances. You can hook into various model events.  If you can specify a model then you can also specify:
 
 * onInstanceChange
 * onInstanceCreate

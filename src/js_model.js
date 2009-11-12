@@ -69,13 +69,18 @@ MBX.JsModel = (function () {
             }
             this.attributes[key] = value;
             if (changed) {
-                MBX.EventHandler.fireCustom(MBX, this.parentClass.Event.changeInstance, {
-                    object: this,
-                    key: key
-                });
-                
-                MBX.EventHandler.fireCustom(this, key + "_changed");
+                this._fireChangeEvent(key);
             }
+        },
+        
+        /**
+            Use to manually fire a change event on an attribute.
+            @param {String} key the key of the attribute you want to fire the enent on
+            @example
+              modelInstance.touch("myAttr");
+        */
+        touch: function (key) {
+            this._fireChangeEvent(key);
         },
         
         /**
@@ -124,12 +129,7 @@ MBX.JsModel = (function () {
             delete this.parentClass.instanceCache[this.primaryKey()];
             MBX.EventHandler.fireCustom(MBX, this.parentClass.Event.destroyInstance, { object: this });
         },
-        
-        /** @private */
-        _createGUID: function () {
-            this.GUID = this.parentClass.modelName + "_" + MBX.JsModel.nextGUID();
-        },
-        
+ 
         /**
             listen to an attribute of a model
             @params key {String} the key to listen to
@@ -139,7 +139,22 @@ MBX.JsModel = (function () {
         */
         observe: function (key, func) {
             return MBX.EventHandler.subscribe(this, key + "_changed", func);
+        },
+        
+        /** @private */
+        _createGUID: function () {
+            this.GUID = this.parentClass.modelName + "_" + MBX.JsModel.nextGUID();
+        },
+        
+        _fireChangeEvent: function (key) {
+            MBX.EventHandler.fireCustom(MBX, this.parentClass.Event.changeInstance, {
+                object: this,
+                key: key
+            });
+            
+            MBX.EventHandler.fireCustom(this, key + "_changed");
         }
+
     };
     
     /** 

@@ -494,6 +494,12 @@ Screw.Unit(function() {
                    // the equal, 1 is from the original set - so this one should not increment it to 2
                    expect(TH.eventCountFor(changeEvent)).to(equal, 1);
                });
+               
+               it("should allow you to touch a key", function () {
+                    instance.touch("myAttr");
+                    expect(TH.eventCountFor(changeEvent)).to(equal, 2);
+               });
+               
            });
            
         });

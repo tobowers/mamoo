@@ -424,82 +424,92 @@
 <span class='line'>417</span>         </span><span class="COMM">/**
 <span class='line'>418</span>             A convenience method to subscribe to destroying model instances
 <span class='line'>419</span>             @example
-<span class='line'>420</span>               AModelInstance.onInstanceDestroy(function (evt) { console.log(evt) });
+<span class='line'>420</span>               AModelInstance.onInstanceDestroy(function (evt) { console.log(evt); });
 <span class='line'>421</span>         */</span><span class="WHIT">
 <span class='line'>422</span> </span><span class="WHIT">        </span><span class="NAME">onInstanceDestroy</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>423</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.Event.destroyInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>424</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
 <span class='line'>425</span> </span><span class="WHIT">        
 <span class='line'>426</span>         </span><span class="COMM">/**
-<span class='line'>427</span>             A convenience method to subscribe to destroying model instances
+<span class='line'>427</span>             A convenience method to subscribe to changing model instances
 <span class='line'>428</span>             @example
-<span class='line'>429</span>               AModelInstance.onInstanceChange(function (evt) { console.log(evt) });
+<span class='line'>429</span>               AModelInstance.onInstanceChange(function (evt) { console.log(evt); });
 <span class='line'>430</span>         */</span><span class="WHIT">
 <span class='line'>431</span> </span><span class="WHIT">        </span><span class="NAME">onInstanceChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>432</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.Event.changeInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>433</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>434</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>435</span> </span><span class="WHIT">    
-<span class='line'>436</span>     </span><span class="NAME">publicObj.Event</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>437</span> </span><span class="WHIT">        </span><span class="NAME">newModel</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"new_model"</span><span class="WHIT">
-<span class='line'>438</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>439</span> </span><span class="WHIT">    
-<span class='line'>440</span>     </span><span class="COMM">/**
-<span class='line'>441</span>         Used for creating a new JsModel
-<span class='line'>442</span>         @name MBX.JsModel.create
-<span class='line'>443</span>         @function
-<span class='line'>444</span>         
-<span class='line'>445</span>         @param {String} name model name used to prevent name collision
-<span class='line'>446</span>         @param {Object} opts defaults to {}
-<span class='line'>447</span>         
-<span class='line'>448</span>         @constructs
-<span class='line'>449</span>         @example
-<span class='line'>450</span>           var MyModel = MBX.JsModel.create("MyModel");
-<span class='line'>451</span>           var instance = MyModel.create();
-<span class='line'>452</span>     */</span><span class="WHIT">
-<span class='line'>453</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.create</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>454</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">JsModel</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>455</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>456</span> </span><span class="WHIT">    
-<span class='line'>457</span>     </span><span class="COMM">/**
-<span class='line'>458</span>        Used internally to find the next GUID
-<span class='line'>459</span>        @private
-<span class='line'>460</span>     */</span><span class="WHIT">
-<span class='line'>461</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.nextGUID</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>462</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">currentGUID</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>463</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>464</span> </span><span class="WHIT">    
-<span class='line'>465</span>     </span><span class="COMM">/**
-<span class='line'>466</span>         Extends all JsModels
-<span class='line'>467</span>         @name MBX.JsModel.extend
-<span class='line'>468</span>         @function
-<span class='line'>469</span>         @param {Object} methsAndAttrs the methods and attributes to extend all models with
+<span class='line'>433</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>434</span> </span><span class="WHIT">        
+<span class='line'>435</span>         
+<span class='line'>436</span>         </span><span class="COMM">/**
+<span class='line'>437</span>             A convenience method to subscribe to changing model attributes
+<span class='line'>438</span>             @example
+<span class='line'>439</span>                 AModelInstance.onAttributeChange(function (evt) { console.dir(evt); });
+<span class='line'>440</span>         */</span><span class="WHIT">
+<span class='line'>441</span> </span><span class="WHIT">        </span><span class="NAME">onAttributeChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>442</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.Event.changeAttribute</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>443</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>444</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>445</span> </span><span class="WHIT">    
+<span class='line'>446</span>     </span><span class="NAME">publicObj.Event</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>447</span> </span><span class="WHIT">        </span><span class="NAME">newModel</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"new_model"</span><span class="WHIT">
+<span class='line'>448</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>449</span> </span><span class="WHIT">    
+<span class='line'>450</span>     </span><span class="COMM">/**
+<span class='line'>451</span>         Used for creating a new JsModel
+<span class='line'>452</span>         @name MBX.JsModel.create
+<span class='line'>453</span>         @function
+<span class='line'>454</span>         
+<span class='line'>455</span>         @param {String} name model name used to prevent name collision
+<span class='line'>456</span>         @param {Object} opts defaults to {}
+<span class='line'>457</span>         
+<span class='line'>458</span>         @constructs
+<span class='line'>459</span>         @example
+<span class='line'>460</span>           var MyModel = MBX.JsModel.create("MyModel");
+<span class='line'>461</span>           var instance = MyModel.create();
+<span class='line'>462</span>     */</span><span class="WHIT">
+<span class='line'>463</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.create</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>464</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">JsModel</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>465</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>466</span> </span><span class="WHIT">    
+<span class='line'>467</span>     </span><span class="COMM">/**
+<span class='line'>468</span>        Used internally to find the next GUID
+<span class='line'>469</span>        @private
 <span class='line'>470</span>     */</span><span class="WHIT">
-<span class='line'>471</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.extend</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>472</span> </span><span class="WHIT">        </span><span class="NAME">methsAndAttrs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">methsAndAttrs</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>473</span> </span><span class="WHIT">        </span><span class="NAME">Object.extend</span><span class="PUNC">(</span><span class="NAME">JsModel.prototype</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>474</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>475</span> </span><span class="WHIT">    
-<span class='line'>476</span>     </span><span class="COMM">/**
-<span class='line'>477</span>         Extend all instances of all models
-<span class='line'>478</span>         @name MBX.JsModel.extendInstancePrototype
-<span class='line'>479</span>         @function
-<span class='line'>480</span>         @param {Object} methsAndAttrs the methods and attributes to extend all models' instances with
-<span class='line'>481</span>     */</span><span class="WHIT">
-<span class='line'>482</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.extendInstancePrototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>483</span> </span><span class="WHIT">        </span><span class="NAME">Object.extend</span><span class="PUNC">(</span><span class="NAME">oneJsModelInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>471</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.nextGUID</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>472</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">currentGUID</span><span class="PUNC">++</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>473</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>474</span> </span><span class="WHIT">    
+<span class='line'>475</span>     </span><span class="COMM">/**
+<span class='line'>476</span>         Extends all JsModels
+<span class='line'>477</span>         @name MBX.JsModel.extend
+<span class='line'>478</span>         @function
+<span class='line'>479</span>         @param {Object} methsAndAttrs the methods and attributes to extend all models with
+<span class='line'>480</span>     */</span><span class="WHIT">
+<span class='line'>481</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.extend</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>482</span> </span><span class="WHIT">        </span><span class="NAME">methsAndAttrs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">methsAndAttrs</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>483</span> </span><span class="WHIT">        </span><span class="NAME">Object.extend</span><span class="PUNC">(</span><span class="NAME">JsModel.prototype</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>484</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>485</span> </span><span class="WHIT">    
 <span class='line'>486</span>     </span><span class="COMM">/**
-<span class='line'>487</span>            Destroy a controller and unsubscribe its event listeners
-<span class='line'>488</span>            @param {String} name the name of the controller
-<span class='line'>489</span>            @name MBX.JsModel.destroyModel
-<span class='line'>490</span>            @function
-<span class='line'>491</span>    */</span><span class="WHIT">
-<span class='line'>492</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.destroyModel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>493</span> </span><span class="WHIT">        </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">modelCache</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>487</span>         Extend all instances of all models
+<span class='line'>488</span>         @name MBX.JsModel.extendInstancePrototype
+<span class='line'>489</span>         @function
+<span class='line'>490</span>         @param {Object} methsAndAttrs the methods and attributes to extend all models' instances with
+<span class='line'>491</span>     */</span><span class="WHIT">
+<span class='line'>492</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.extendInstancePrototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>493</span> </span><span class="WHIT">        </span><span class="NAME">Object.extend</span><span class="PUNC">(</span><span class="NAME">oneJsModelInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>494</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
 <span class='line'>495</span> </span><span class="WHIT">    
-<span class='line'>496</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">publicObj</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>497</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>498</span> </span></pre></body></html>
+<span class='line'>496</span>     </span><span class="COMM">/**
+<span class='line'>497</span>            Destroy a controller and unsubscribe its event listeners
+<span class='line'>498</span>            @param {String} name the name of the controller
+<span class='line'>499</span>            @name MBX.JsModel.destroyModel
+<span class='line'>500</span>            @function
+<span class='line'>501</span>    */</span><span class="WHIT">
+<span class='line'>502</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.destroyModel</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>503</span> </span><span class="WHIT">        </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">modelCache</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>504</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>505</span> </span><span class="WHIT">    
+<span class='line'>506</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">publicObj</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>507</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>508</span> </span></pre></body></html>

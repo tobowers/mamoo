@@ -417,19 +417,29 @@ MBX.JsModel = (function () {
         /**
             A convenience method to subscribe to destroying model instances
             @example
-              AModelInstance.onInstanceDestroy(function (evt) { console.log(evt) });
+              AModelInstance.onInstanceDestroy(function (evt) { console.log(evt); });
         */
         onInstanceDestroy: function (func) {
             return MBX.EventHandler.subscribe(MBX, this.Event.destroyInstance, func);
         },
         
         /**
-            A convenience method to subscribe to destroying model instances
+            A convenience method to subscribe to changing model instances
             @example
-              AModelInstance.onInstanceChange(function (evt) { console.log(evt) });
+              AModelInstance.onInstanceChange(function (evt) { console.log(evt); });
         */
         onInstanceChange: function (func) {
             return MBX.EventHandler.subscribe(MBX, this.Event.changeInstance, func);
+        },
+        
+        
+        /**
+            A convenience method to subscribe to changing model attributes
+            @example
+                AModelInstance.onAttributeChange(function (evt) { console.dir(evt); });
+        */
+        onAttributeChange: function (func) {
+            return MBX.EventHandler.subscribe(MBX, this.Event.changeAttribute, func);
         }
     };
     

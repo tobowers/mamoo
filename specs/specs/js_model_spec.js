@@ -405,6 +405,19 @@ Screw.Unit(function() {
                expect(called).to(be_true);
            });
            
+           it("should allow you to observe a key twice", function () {
+               var called = false;
+               var keyCalled = function (evt) {
+                   called = true;
+               };
+               instance.observe("key", keyCalled);
+               instance.set("key", "changed");
+               called = false;
+               instance.set("key", "changedAgain");
+               
+               expect(called).to(be_true);
+           });
+           
            it("should allow you to flush all instances of the model", function () {
                MyModel.flush();
                expect(MyModel.findAll().length).to(equal, 0);

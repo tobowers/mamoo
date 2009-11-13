@@ -71,6 +71,7 @@ MBX.JsModel = (function () {
             if (changed) {
                 this._fireChangeEvent(key);
             }
+            return this;
         },
         
         /**

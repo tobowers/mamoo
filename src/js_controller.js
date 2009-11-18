@@ -46,7 +46,7 @@ MBX.JsController = (function () {
         
         this.controllerName = name;
         Object.extend(this, opts);
-        if (opts.model) {
+        if (this.model) {
             this._subscribeToEvents();
         }
         controllerCache[name] = this;
@@ -124,17 +124,24 @@ MBX.JsController = (function () {
             
         */
         _subscribeToEvents: function () {
-            var changeEvent = this.model.Event.changeInstance;
-            var newEvent = this.model.Event.newInstance;
-            var destroyEvent = this.model.Event.destroyInstance;
-            var attributeEvent = this.model.Event.changeAttribute;
-            var defer = this.looselyCoupled;
+            var model = this.model;
+            if (model.constructor != Array) {
+               model = [model];
+            }
+            
+            model.each(function (model) {
+                var changeEvent = model.Event.changeInstance;
+                var newEvent = model.Event.newInstance;
+                var destroyEvent = model.Event.destroyInstance;
+                var attributeEvent = model.Event.changeAttribute;
+                var defer = this.looselyCoupled;
 
-            this.eventSubscriptions = [];
-            this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, changeEvent, this._onInstanceChange.bind(this), {defer: defer}));
-            this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, newEvent, this._onInstanceCreate.bind(this), {defer: defer}));
-            this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, destroyEvent, this._onInstanceDestroy.bind(this), {defer: defer}));
-            this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, attributeEvent, this._onAttributeChange.bind(this), {defer: defer}));
+                this.eventSubscriptions = [];
+                this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, changeEvent, this._onInstanceChange.bind(this), {defer: defer}));
+                this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, newEvent, this._onInstanceCreate.bind(this), {defer: defer}));
+                this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, destroyEvent, this._onInstanceDestroy.bind(this), {defer: defer}));
+                this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, attributeEvent, this._onAttributeChange.bind(this), {defer: defer}));
+            }.bind(this));
         },
         
         /**

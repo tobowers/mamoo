@@ -91,6 +91,27 @@ Screw.Unit(function() {
                expect(eventSubscriptions[2]).to(equal, [MBX, MyModel.Event.destroyInstance]);
            });
            
+           it("should be able to handle an array of models", function () {
+               var MyModel2 = MBX.JsModel.create("MyModel2");
+               var eventSubscriptions = [];
+               var mockedHandler = TH.Mock.obj("MBX.EventHandler");
+               mockedHandler.subscribe = function (specifiers, evtTypes, funcs) {
+                   eventSubscriptions.push([specifiers, evtTypes]);
+               };               
+               MyController = MBX.JsController.create('MyController', { model: [MyModel, MyModel2] });
+               
+               expect(eventSubscriptions[0]).to(equal, [MBX, MyModel.Event.changeInstance]);
+               expect(eventSubscriptions[1]).to(equal, [MBX, MyModel.Event.newInstance]);
+               expect(eventSubscriptions[2]).to(equal, [MBX, MyModel.Event.destroyInstance]);
+               expect(eventSubscriptions[3]).to(equal, [MBX, MyModel.Event.changeAttribute]);
+               
+               expect(eventSubscriptions[4]).to(equal, [MBX, MyModel2.Event.changeInstance]);
+               expect(eventSubscriptions[5]).to(equal, [MBX, MyModel2.Event.newInstance]);
+               expect(eventSubscriptions[6]).to(equal, [MBX, MyModel2.Event.destroyInstance]);
+               expect(eventSubscriptions[7]).to(equal, [MBX, MyModel2.Event.changeAttribute]);
+               
+           });
+           
            describe("callbacks", function () {
               var lastCallback, instance;
               before(function () {
@@ -133,6 +154,21 @@ Screw.Unit(function() {
                   lastCallback = null;
                   MyModel.set("hi", "bye");
                   expect(lastCallback).to(equal, "hi");
+              });
+              
+              it("should handle callbacks on multiple models if specified", function () {
+                  var MyModel3 = MBX.JsModel.create("MyModel3");
+                  var MyModel4 = MBX.JsModel.create("MyModel4");
+                  var MyController2 = MBX.JsController.create("MyController2", {
+                      model: [MyModel3, MyModel4],
+                      onInstanceCreate: function (instance) {
+                          lastCallback = instance;
+                      }
+                  });
+                  var inst = MyModel3.create();
+                  expect(lastCallback).to(equal, inst);
+                  inst = MyModel4.create();
+                  expect(lastCallback).to(equal, inst);
               });
               
            });

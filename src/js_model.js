@@ -510,8 +510,18 @@ MBX.JsModel = (function () {
     };
     
     /**
-           Destroy a controller and unsubscribe its event listeners
-           @param {String} name the name of the controller
+        Fetch a model based on its name
+        @name MBX.JsModel.getModel
+        @function
+        @param {String} name the name of the model
+    */
+    publicObj.getModel = function (name) {
+        return modelCache[name];
+    };
+    
+    /**
+           Destroy a model
+           @param {String} name the name of the model
            @name MBX.JsModel.destroyModel
            @function
    */

@@ -19,6 +19,11 @@ Screw.Unit(function() {
             expect(called).to(be_true);
         });
         
+        it("should be able to return a model based on its name", function () {
+            MyModel = MBX.JsModel.create("MyModel");
+            expect(MBX.JsModel.getModel("MyModel")).to(equal, MyModel);
+        });
+        
         it("should allow you to specify an afterCreate that gets executed after an instance is created", function () {
             MyModel = MBX.JsModel.create("MyModel", {
                 instanceMethods: {

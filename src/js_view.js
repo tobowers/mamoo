@@ -75,7 +75,20 @@ MBX.JsView = (function () {
     };
     
     View.prototype = /** @lends JsView */{
+        active: true,
         
+        /** reactivate event listening on this view
+        */
+        activate: function () {
+            this.active = true;
+        },
+        
+        /** quiets all events on this view, your callbacks will
+            not get called
+        */
+        deactivate: function () {
+            this.active = false;
+        },
         /** helper function to spit out divs
             @param {String} className the classes you want to add to the div
             @param {Object} opts (optional) any opts to pass to new Element
@@ -104,25 +117,25 @@ MBX.JsView = (function () {
             @params {String} key the key that changed
         */
         _onInstanceChange: function (evt) {
-            if (typeof this.onInstanceChange == 'function') {
+            if (this.active && typeof this.onInstanceChange == 'function') {
                 this.onInstanceChange(evt.object, evt.key);
             }
         },
         
         _onInstanceCreate: function (evt) {
-            if (typeof this.onInstanceCreate == 'function') {
+            if (this.active && typeof this.onInstanceCreate == 'function') {
                 this.onInstanceCreate(evt.object);
             }
         },
         
         _onInstanceDestroy: function (evt) {
-            if (typeof this.onInstanceDestroy == 'function') {
+            if (this.active && typeof this.onInstanceDestroy == 'function') {
                 this.onInstanceDestroy(evt.object);
             }
         },
         
         _onAttributeChange: function (evt) {
-            if (typeof this.onAttributeChange == 'function') {
+            if (this.active && typeof this.onAttributeChange == 'function') {
                 this.onAttributeChange(evt.key);
             }
         },

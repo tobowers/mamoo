@@ -134,6 +134,17 @@ Screw.Unit(function() {
                   instance = MyModel.create();
               });
               
+              it("should not call callbacks when deactivated", function () {
+                  MyController.deactivate();
+                  lastCallback = null;
+                  
+                  instance = MyModel.create();
+                  instance.set("something", "is different");
+                  instance.destroy();
+                  MyModel.set('hi', 'bye');
+                  expect(lastCallback).to(be_null);
+              });
+              
               it("should call onInstanceCreate when a new instance of Model is created", function () {
                   expect(lastCallback).to(equal, instance);
               });
@@ -150,7 +161,7 @@ Screw.Unit(function() {
                   expect(lastCallback).to(equal, instance);
               });
               
-              it("should call onInstanceDestroy when an instance is destroyed", function () {
+              it("should call onAttributeChange when a model attribute is changed", function () {
                   lastCallback = null;
                   MyModel.set("hi", "bye");
                   expect(lastCallback).to(equal, "hi");

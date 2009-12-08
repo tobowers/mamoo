@@ -59,6 +59,22 @@ MBX.JsController = (function () {
     JsController.prototype = 
         /** @lends JsController */
         {
+            
+        active: true,
+        
+        /** reactivate event listening on this controller
+        */
+        activate: function () {
+            this.active = true;
+        },
+        
+        /** quiets all events on this controller, your callbacks will
+            not get called
+        */
+        deactivate: function () {
+            this.active = false;
+        },   
+        
         /**
             If you have passed in a function for onInstanceChange
             then this will pass the object and the key that changed to
@@ -75,7 +91,7 @@ MBX.JsController = (function () {
               });
         */
         _onInstanceChange: function (evt) {
-            if (this.onInstanceChange) {
+            if (this.onInstanceChange && this.active) {
                 this.onInstanceChange(evt.object, evt.key);
             }
         },
@@ -86,7 +102,7 @@ MBX.JsController = (function () {
             @requires this.model
         */
         _onInstanceCreate: function (evt) {            
-            if (this.onInstanceCreate) {
+            if (this.onInstanceCreate && this.active) {
                 this.onInstanceCreate(evt.object);
             }     
         },
@@ -101,7 +117,7 @@ MBX.JsController = (function () {
             @requires this.model
         */
         _onInstanceDestroy: function (evt) {
-            if (this.onInstanceDestroy) {
+            if (this.onInstanceDestroy && this.active) {
                 this.onInstanceDestroy(evt.object);
             }
         },
@@ -112,7 +128,7 @@ MBX.JsController = (function () {
             @requires this.model
         */
         _onAttributeChange: function (evt) {
-            if (typeof this.onAttributeChange == 'function') {
+            if (this.active && typeof this.onAttributeChange == 'function') {
                 this.onAttributeChange(evt.key);
             }
         },

@@ -217,7 +217,7 @@ Screw.Unit(function() {
                 onInstanceDestroyCalled, onAttributeChangeCalled;
                 
             before(function () {
-                onInstanceCreateCalled = onInstanceChangeCalled = onInstanceDestroyCalled = false;
+                onAttributeChangeCalled = onInstanceCreateCalled = onInstanceChangeCalled = onInstanceDestroyCalled = false;
                 view = MBX.JsView.create({
                     model: MyModel,
                     onInstanceCreate: function (ins) {
@@ -241,6 +241,19 @@ Screw.Unit(function() {
                 });
                 
                 instance = MyModel.create();
+            });
+            
+            it("should not fire callbacks when deactivated", function () {
+                view.deactivate();
+                onInstanceCreateCalled = onInstanceChangeCalled = onInstanceDestroyCalled = false;
+                instance = MyModel.create();
+                instance.set("something", "different");
+                instance.destroy();
+                MyModel.set("attr", "something");
+                expect(onInstanceCreateCalled).to(be_false);
+                expect(onInstanceChangeCalled).to(be_false);
+                expect(onInstanceDestroyCalled).to(be_false);
+                expect(onAttributeChangeCalled).to(be_false);
             });
             
             it("should listen to createInstance calls", function () {

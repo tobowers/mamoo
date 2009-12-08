@@ -66,189 +66,205 @@
 <span class='line'> 59</span>     </span><span class="NAME">JsController.prototype</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> 
 <span class='line'> 60</span>         </span><span class="COMM">/** @lends JsController */</span><span class="WHIT">
 <span class='line'> 61</span> </span><span class="WHIT">        </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 62</span> </span><span class="WHIT">        </span><span class="COMM">/**
-<span class='line'> 63</span>             If you have passed in a function for onInstanceChange
-<span class='line'> 64</span>             then this will pass the object and the key that changed to
-<span class='line'> 65</span>             your function
-<span class='line'> 66</span>             @requires MBX.JsModel
-<span class='line'> 67</span>             @requires this.model
-<span class='line'> 68</span>             @see JsModel#instance
-<span class='line'> 69</span>             @example
-<span class='line'> 70</span>               myController = MBX.JsController.create("myController", {
-<span class='line'> 71</span>                   onInstanceChange: function (modelInstance, key) {
-<span class='line'> 72</span>                       // where key will be the attribute (string)
-<span class='line'> 73</span>                       // that has changed on the modelInstance (JsModel#instance)
-<span class='line'> 74</span>                   }
-<span class='line'> 75</span>               });
-<span class='line'> 76</span>         */</span><span class="WHIT">
-<span class='line'> 77</span> </span><span class="WHIT">        </span><span class="NAME">_onInstanceChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 78</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onInstanceChange</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 79</span> </span><span class="WHIT">                </span><span class="NAME">this.onInstanceChange</span><span class="PUNC">(</span><span class="NAME">evt.object</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">evt.key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 80</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'> 81</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 82</span> </span><span class="WHIT">        
-<span class='line'> 83</span>         </span><span class="COMM">/**
-<span class='line'> 84</span>             @private
-<span class='line'> 85</span>             @requires MBX.JsModel
-<span class='line'> 86</span>             @requires this.model
-<span class='line'> 87</span>         */</span><span class="WHIT">
-<span class='line'> 88</span> </span><span class="WHIT">        </span><span class="NAME">_onInstanceCreate</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">            
-<span class='line'> 89</span>             </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onInstanceCreate</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 90</span> </span><span class="WHIT">                </span><span class="NAME">this.onInstanceCreate</span><span class="PUNC">(</span><span class="NAME">evt.object</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 91</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">     
-<span class='line'> 92</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 93</span> </span><span class="WHIT">        
-<span class='line'> 94</span>         </span><span class="NAME">fireAfterRender</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'> 95</span> </span><span class="WHIT">            </span><span class="NAME">MBX.EventHandler.fireCustom</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.controllerName</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"_"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">MBX.JsController.Event.afterRender</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'> 96</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'> 97</span> </span><span class="WHIT">        
-<span class='line'> 98</span>         </span><span class="COMM">/**
-<span class='line'> 99</span>             @private
-<span class='line'>100</span>             @requires MBX.JsModel
-<span class='line'>101</span>             @requires this.model
-<span class='line'>102</span>         */</span><span class="WHIT">
-<span class='line'>103</span> </span><span class="WHIT">        </span><span class="NAME">_onInstanceDestroy</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>104</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onInstanceDestroy</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>105</span> </span><span class="WHIT">                </span><span class="NAME">this.onInstanceDestroy</span><span class="PUNC">(</span><span class="NAME">evt.object</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>106</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>107</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>108</span> </span><span class="WHIT">        
-<span class='line'>109</span>         </span><span class="COMM">/**
-<span class='line'>110</span>             @private
-<span class='line'>111</span>             @requires MBX.JsModel
-<span class='line'>112</span>             @requires this.model
-<span class='line'>113</span>         */</span><span class="WHIT">
-<span class='line'>114</span> </span><span class="WHIT">        </span><span class="NAME">_onAttributeChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>115</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">this.onAttributeChange</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>116</span> </span><span class="WHIT">                </span><span class="NAME">this.onAttributeChange</span><span class="PUNC">(</span><span class="NAME">evt.key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>117</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>118</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>119</span> </span><span class="WHIT">        
-<span class='line'>120</span>         </span><span class="COMM">/**
-<span class='line'>121</span>             @private
-<span class='line'>122</span>             @requires MBX.JsModel
-<span class='line'>123</span>             @requires this.model
-<span class='line'>124</span>             
-<span class='line'>125</span>         */</span><span class="WHIT">
-<span class='line'>126</span> </span><span class="WHIT">        </span><span class="NAME">_subscribeToEvents</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>127</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">model</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.model</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>128</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">model.constructor</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">Array</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>129</span> </span><span class="WHIT">               </span><span class="NAME">model</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">model</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>130</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>131</span> </span><span class="WHIT">            
-<span class='line'>132</span>             </span><span class="NAME">model.each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">model</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>133</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">changeEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">model.Event.changeInstance</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>134</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">model.Event.newInstance</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>135</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">destroyEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">model.Event.destroyInstance</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>136</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">attributeEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">model.Event.changeAttribute</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>137</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">defer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.looselyCoupled</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>138</span> 
-<span class='line'>139</span> </span><span class="WHIT">                </span><span class="NAME">this.eventSubscriptions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>140</span> </span><span class="WHIT">                </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">changeEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onInstanceChange.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">defer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">defer</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>141</span> </span><span class="WHIT">                </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">newEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onInstanceCreate.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">defer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">defer</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>142</span> </span><span class="WHIT">                </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">destroyEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onInstanceDestroy.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">defer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">defer</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>143</span> </span><span class="WHIT">                </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">attributeEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onAttributeChange.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">defer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">defer</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>144</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>145</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>146</span> </span><span class="WHIT">        
-<span class='line'>147</span>         </span><span class="COMM">/**
-<span class='line'>148</span>             @private
-<span class='line'>149</span>             @requires MBX.JsModel
-<span class='line'>150</span>             @requires this.model
-<span class='line'>151</span>         */</span><span class="WHIT">
-<span class='line'>152</span> </span><span class="WHIT">        </span><span class="NAME">_unsubscribeToEvents</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>153</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.eventSubscriptions</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.eventSubscriptions</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">                
-<span class='line'>154</span>                 </span><span class="NAME">this.eventSubscriptions.each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">subscription</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>155</span> </span><span class="WHIT">                    </span><span class="NAME">MBX.EventHandler.unsubscribe</span><span class="PUNC">(</span><span class="NAME">subscription</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>156</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>157</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>158</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>159</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>160</span> </span><span class="WHIT">    
-<span class='line'>161</span>     </span><span class="COMM">/**
-<span class='line'>162</span>         This is mostly used internally and is fired on MBX everytime a controller is created
-<span class='line'>163</span>         @memberOf MBX.JsController
-<span class='line'>164</span>         @name MBX.JsController.Event
-<span class='line'>165</span>     */</span><span class="WHIT">
-<span class='line'>166</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.Event</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>167</span> </span><span class="WHIT">        </span><span class="NAME">newController</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"new_controller"</span><span class="PUNC">,</span><span class="WHIT">
-<span class='line'>168</span> </span><span class="WHIT">        </span><span class="NAME">afterRender</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"render_finished"</span><span class="WHIT">
-<span class='line'>169</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>170</span> </span><span class="WHIT">    
-<span class='line'>171</span>     </span><span class="COMM">/**
-<span class='line'>172</span>         call extend() to add methods and/or attributes to ALL controllers
-<span class='line'>173</span>         @param {Object} methsAndAttrs
-<span class='line'>174</span>         @name MBX.JsController.extend
-<span class='line'>175</span>         @function
-<span class='line'>176</span>     */</span><span class="WHIT">
-<span class='line'>177</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.extend</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>178</span> </span><span class="WHIT">        </span><span class="NAME">methsAndAttrs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">methsAndAttrs</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>179</span> </span><span class="WHIT">        </span><span class="NAME">Object.extend</span><span class="PUNC">(</span><span class="NAME">JsController.prototype</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>180</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>181</span> </span><span class="WHIT">    
-<span class='line'>182</span>     </span><span class="COMM">/**
-<span class='line'>183</span>         Controllers allow some decently powerful hooks. You can specify a model, and an
-<span class='line'>184</span>         onInstanceChange, onInstanceDestroy, onInstanceCreate.
-<span class='line'>185</span>         
-<span class='line'>186</span>         If your controller listens to a model, but you are not dependent on real-time updates,
-<span class='line'>187</span>         you can add the option "looselyCoupled: true" and all updates will be done with
-<span class='line'>188</span>         setTimeout, which will be a performance enhancement.
-<span class='line'>189</span>           
-<span class='line'>190</span>         @name MBX.JsController.create
-<span class='line'>191</span>         @param {String} name the name of the controller
-<span class='line'>192</span>         @param {Object} opts used to extend the controller methods at instantiation
-<span class='line'>193</span>         @see JsController
-<span class='line'>194</span>         @function
-<span class='line'>195</span>         @example
-<span class='line'>196</span>           MBX.DesktopUploadController = MBX.JsController.create("DesktopUpload", {
-<span class='line'>197</span>               looselyCoupled: false, // false is the default
-<span class='line'>198</span>               ANewMethod: function (something) {
-<span class='line'>199</span>                   return something;
-<span class='line'>200</span>               }
-<span class='line'>201</span>           })
-<span class='line'>202</span>           MBX.DesktopUpload.ANewMethod("boo") == "boo";
-<span class='line'>203</span>         @example
-<span class='line'>204</span>           MBX.DesktopUploadController = MBX.JsController.create("DesktopUpload", {
-<span class='line'>205</span>               model: MBX.DesktopUpload,
-<span class='line'>206</span>               onInstanceCreate: function (instance) {
-<span class='line'>207</span>                   alert(instance.get('greeting'));
-<span class='line'>208</span>               }              
-<span class='line'>209</span>           });
-<span class='line'>210</span>           MBX.DesktopUpload.create({ greeting: 'hi' });  // will alert('hi');
+<span class='line'> 62</span> </span><span class="WHIT">            
+<span class='line'> 63</span>         </span><span class="NAME">active</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 64</span> </span><span class="WHIT">        
+<span class='line'> 65</span>         </span><span class="COMM">/** reactivate event listening on this controller
+<span class='line'> 66</span>         */</span><span class="WHIT">
+<span class='line'> 67</span> </span><span class="WHIT">        </span><span class="NAME">activate</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 68</span> </span><span class="WHIT">            </span><span class="NAME">this.active</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">true</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 69</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 70</span> </span><span class="WHIT">        
+<span class='line'> 71</span>         </span><span class="COMM">/** quiets all events on this controller, your callbacks will
+<span class='line'> 72</span>             not get called
+<span class='line'> 73</span>         */</span><span class="WHIT">
+<span class='line'> 74</span> </span><span class="WHIT">        </span><span class="NAME">deactivate</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 75</span> </span><span class="WHIT">            </span><span class="NAME">this.active</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">false</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 76</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">   
+<span class='line'> 77</span>         
+<span class='line'> 78</span>         </span><span class="COMM">/**
+<span class='line'> 79</span>             If you have passed in a function for onInstanceChange
+<span class='line'> 80</span>             then this will pass the object and the key that changed to
+<span class='line'> 81</span>             your function
+<span class='line'> 82</span>             @requires MBX.JsModel
+<span class='line'> 83</span>             @requires this.model
+<span class='line'> 84</span>             @see JsModel#instance
+<span class='line'> 85</span>             @example
+<span class='line'> 86</span>               myController = MBX.JsController.create("myController", {
+<span class='line'> 87</span>                   onInstanceChange: function (modelInstance, key) {
+<span class='line'> 88</span>                       // where key will be the attribute (string)
+<span class='line'> 89</span>                       // that has changed on the modelInstance (JsModel#instance)
+<span class='line'> 90</span>                   }
+<span class='line'> 91</span>               });
+<span class='line'> 92</span>         */</span><span class="WHIT">
+<span class='line'> 93</span> </span><span class="WHIT">        </span><span class="NAME">_onInstanceChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 94</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onInstanceChange</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.active</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'> 95</span> </span><span class="WHIT">                </span><span class="NAME">this.onInstanceChange</span><span class="PUNC">(</span><span class="NAME">evt.object</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">evt.key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'> 96</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'> 97</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'> 98</span> </span><span class="WHIT">        
+<span class='line'> 99</span>         </span><span class="COMM">/**
+<span class='line'>100</span>             @private
+<span class='line'>101</span>             @requires MBX.JsModel
+<span class='line'>102</span>             @requires this.model
+<span class='line'>103</span>         */</span><span class="WHIT">
+<span class='line'>104</span> </span><span class="WHIT">        </span><span class="NAME">_onInstanceCreate</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">            
+<span class='line'>105</span>             </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onInstanceCreate</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.active</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>106</span> </span><span class="WHIT">                </span><span class="NAME">this.onInstanceCreate</span><span class="PUNC">(</span><span class="NAME">evt.object</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>107</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">     
+<span class='line'>108</span>         </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>109</span> </span><span class="WHIT">        
+<span class='line'>110</span>         </span><span class="NAME">fireAfterRender</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>111</span> </span><span class="WHIT">            </span><span class="NAME">MBX.EventHandler.fireCustom</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.controllerName</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">"_"</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">MBX.JsController.Event.afterRender</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>112</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>113</span> </span><span class="WHIT">        
+<span class='line'>114</span>         </span><span class="COMM">/**
+<span class='line'>115</span>             @private
+<span class='line'>116</span>             @requires MBX.JsModel
+<span class='line'>117</span>             @requires this.model
+<span class='line'>118</span>         */</span><span class="WHIT">
+<span class='line'>119</span> </span><span class="WHIT">        </span><span class="NAME">_onInstanceDestroy</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>120</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.onInstanceDestroy</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.active</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>121</span> </span><span class="WHIT">                </span><span class="NAME">this.onInstanceDestroy</span><span class="PUNC">(</span><span class="NAME">evt.object</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>122</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>123</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>124</span> </span><span class="WHIT">        
+<span class='line'>125</span>         </span><span class="COMM">/**
+<span class='line'>126</span>             @private
+<span class='line'>127</span>             @requires MBX.JsModel
+<span class='line'>128</span>             @requires this.model
+<span class='line'>129</span>         */</span><span class="WHIT">
+<span class='line'>130</span> </span><span class="WHIT">        </span><span class="NAME">_onAttributeChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">evt</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>131</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.active</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">this.onAttributeChange</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">'function'</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>132</span> </span><span class="WHIT">                </span><span class="NAME">this.onAttributeChange</span><span class="PUNC">(</span><span class="NAME">evt.key</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>133</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>134</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>135</span> </span><span class="WHIT">        
+<span class='line'>136</span>         </span><span class="COMM">/**
+<span class='line'>137</span>             @private
+<span class='line'>138</span>             @requires MBX.JsModel
+<span class='line'>139</span>             @requires this.model
+<span class='line'>140</span>             
+<span class='line'>141</span>         */</span><span class="WHIT">
+<span class='line'>142</span> </span><span class="WHIT">        </span><span class="NAME">_subscribeToEvents</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>143</span> </span><span class="WHIT">            </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">model</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.model</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>144</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">model.constructor</span><span class="WHIT"> </span><span class="PUNC">!=</span><span class="WHIT"> </span><span class="NAME">Array</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>145</span> </span><span class="WHIT">               </span><span class="NAME">model</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="NAME">model</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>146</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>147</span> </span><span class="WHIT">            
+<span class='line'>148</span>             </span><span class="NAME">model.each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">model</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>149</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">changeEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">model.Event.changeInstance</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>150</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">newEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">model.Event.newInstance</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>151</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">destroyEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">model.Event.destroyInstance</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>152</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">attributeEvent</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">model.Event.changeAttribute</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>153</span> </span><span class="WHIT">                </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">defer</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">this.looselyCoupled</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>154</span> 
+<span class='line'>155</span> </span><span class="WHIT">                </span><span class="NAME">this.eventSubscriptions</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">[</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>156</span> </span><span class="WHIT">                </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">changeEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onInstanceChange.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">defer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">defer</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>157</span> </span><span class="WHIT">                </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">newEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onInstanceCreate.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">defer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">defer</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>158</span> </span><span class="WHIT">                </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">destroyEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onInstanceDestroy.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">defer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">defer</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>159</span> </span><span class="WHIT">                </span><span class="NAME">this.eventSubscriptions.push</span><span class="PUNC">(</span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">attributeEvent</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this._onAttributeChange.bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="NAME">defer</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="NAME">defer</span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>160</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="PUNC">.</span><span class="NAME">bind</span><span class="PUNC">(</span><span class="KEYW">this</span><span class="PUNC">)</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>161</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>162</span> </span><span class="WHIT">        
+<span class='line'>163</span>         </span><span class="COMM">/**
+<span class='line'>164</span>             @private
+<span class='line'>165</span>             @requires MBX.JsModel
+<span class='line'>166</span>             @requires this.model
+<span class='line'>167</span>         */</span><span class="WHIT">
+<span class='line'>168</span> </span><span class="WHIT">        </span><span class="NAME">_unsubscribeToEvents</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>169</span> </span><span class="WHIT">            </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">this.eventSubscriptions</span><span class="WHIT"> </span><span class="PUNC">&&</span><span class="WHIT"> </span><span class="NAME">this.eventSubscriptions</span><span class="PUNC">[</span><span class="NUMB">0</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">                
+<span class='line'>170</span>                 </span><span class="NAME">this.eventSubscriptions.each</span><span class="PUNC">(</span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">subscription</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>171</span> </span><span class="WHIT">                    </span><span class="NAME">MBX.EventHandler.unsubscribe</span><span class="PUNC">(</span><span class="NAME">subscription</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>172</span> </span><span class="WHIT">                </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>173</span> </span><span class="WHIT">            </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>174</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>175</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>176</span> </span><span class="WHIT">    
+<span class='line'>177</span>     </span><span class="COMM">/**
+<span class='line'>178</span>         This is mostly used internally and is fired on MBX everytime a controller is created
+<span class='line'>179</span>         @memberOf MBX.JsController
+<span class='line'>180</span>         @name MBX.JsController.Event
+<span class='line'>181</span>     */</span><span class="WHIT">
+<span class='line'>182</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.Event</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>183</span> </span><span class="WHIT">        </span><span class="NAME">newController</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"new_controller"</span><span class="PUNC">,</span><span class="WHIT">
+<span class='line'>184</span> </span><span class="WHIT">        </span><span class="NAME">afterRender</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="STRN">"render_finished"</span><span class="WHIT">
+<span class='line'>185</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>186</span> </span><span class="WHIT">    
+<span class='line'>187</span>     </span><span class="COMM">/**
+<span class='line'>188</span>         call extend() to add methods and/or attributes to ALL controllers
+<span class='line'>189</span>         @param {Object} methsAndAttrs
+<span class='line'>190</span>         @name MBX.JsController.extend
+<span class='line'>191</span>         @function
+<span class='line'>192</span>     */</span><span class="WHIT">
+<span class='line'>193</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.extend</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>194</span> </span><span class="WHIT">        </span><span class="NAME">methsAndAttrs</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="NAME">methsAndAttrs</span><span class="WHIT"> </span><span class="PUNC">||</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>195</span> </span><span class="WHIT">        </span><span class="NAME">Object.extend</span><span class="PUNC">(</span><span class="NAME">JsController.prototype</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">methsAndAttrs</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>196</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>197</span> </span><span class="WHIT">    
+<span class='line'>198</span>     </span><span class="COMM">/**
+<span class='line'>199</span>         Controllers allow some decently powerful hooks. You can specify a model, and an
+<span class='line'>200</span>         onInstanceChange, onInstanceDestroy, onInstanceCreate.
+<span class='line'>201</span>         
+<span class='line'>202</span>         If your controller listens to a model, but you are not dependent on real-time updates,
+<span class='line'>203</span>         you can add the option "looselyCoupled: true" and all updates will be done with
+<span class='line'>204</span>         setTimeout, which will be a performance enhancement.
+<span class='line'>205</span>           
+<span class='line'>206</span>         @name MBX.JsController.create
+<span class='line'>207</span>         @param {String} name the name of the controller
+<span class='line'>208</span>         @param {Object} opts used to extend the controller methods at instantiation
+<span class='line'>209</span>         @see JsController
+<span class='line'>210</span>         @function
 <span class='line'>211</span>         @example
 <span class='line'>212</span>           MBX.DesktopUploadController = MBX.JsController.create("DesktopUpload", {
-<span class='line'>213</span>               model: MBX.DesktopUpload,
-<span class='line'>214</span>               onInstanceChange: function (instance) {
-<span class='line'>215</span>                   alert(instance.get('greeting'));
-<span class='line'>216</span>               }              
-<span class='line'>217</span>           });
-<span class='line'>218</span>           var instance = MBX.DesktopUpload.create();
-<span class='line'>219</span>           instance.set('greeting', 'hi');  // will alert('hi')
-<span class='line'>220</span>     */</span><span class="WHIT">
-<span class='line'>221</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.create</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>222</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">controllerCache</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>223</span> </span><span class="WHIT">            </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">"A controller with the name of "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">name</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" is already in use"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>224</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>225</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">controller</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">JsController</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>226</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">controller.initialize</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"function"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>227</span> </span><span class="WHIT">            </span><span class="NAME">controller.initialize</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>228</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>229</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">controller</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>230</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>231</span> </span><span class="WHIT">    
-<span class='line'>232</span>     </span><span class="COMM">/**
-<span class='line'>233</span>         Destroy a controller and unsubscribe its event listeners
-<span class='line'>234</span>         @param {String} name the name of the controller
-<span class='line'>235</span>         @name MBX.JsController.destroyController
-<span class='line'>236</span>         @function
-<span class='line'>237</span>     */</span><span class="WHIT">
-<span class='line'>238</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.destroyController</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>239</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">controllerCache</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
-<span class='line'>240</span> </span><span class="WHIT">            </span><span class="NAME">controllerCache</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">_unsubscribeToEvents</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>241</span> </span><span class="WHIT">            </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">controllerCache</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>242</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
-<span class='line'>243</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>244</span> </span><span class="WHIT">    
-<span class='line'>245</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">publicObj</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>246</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
-<span class='line'>247</span> </span></pre></body></html>
+<span class='line'>213</span>               looselyCoupled: false, // false is the default
+<span class='line'>214</span>               ANewMethod: function (something) {
+<span class='line'>215</span>                   return something;
+<span class='line'>216</span>               }
+<span class='line'>217</span>           })
+<span class='line'>218</span>           MBX.DesktopUpload.ANewMethod("boo") == "boo";
+<span class='line'>219</span>         @example
+<span class='line'>220</span>           MBX.DesktopUploadController = MBX.JsController.create("DesktopUpload", {
+<span class='line'>221</span>               model: MBX.DesktopUpload,
+<span class='line'>222</span>               onInstanceCreate: function (instance) {
+<span class='line'>223</span>                   alert(instance.get('greeting'));
+<span class='line'>224</span>               }              
+<span class='line'>225</span>           });
+<span class='line'>226</span>           MBX.DesktopUpload.create({ greeting: 'hi' });  // will alert('hi');
+<span class='line'>227</span>         @example
+<span class='line'>228</span>           MBX.DesktopUploadController = MBX.JsController.create("DesktopUpload", {
+<span class='line'>229</span>               model: MBX.DesktopUpload,
+<span class='line'>230</span>               onInstanceChange: function (instance) {
+<span class='line'>231</span>                   alert(instance.get('greeting'));
+<span class='line'>232</span>               }              
+<span class='line'>233</span>           });
+<span class='line'>234</span>           var instance = MBX.DesktopUpload.create();
+<span class='line'>235</span>           instance.set('greeting', 'hi');  // will alert('hi')
+<span class='line'>236</span>     */</span><span class="WHIT">
+<span class='line'>237</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.create</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>238</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">controllerCache</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>239</span> </span><span class="WHIT">            </span><span class="KEYW">throw</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">Error</span><span class="PUNC">(</span><span class="STRN">"A controller with the name of "</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="NAME">name</span><span class="WHIT"> </span><span class="PUNC">+</span><span class="WHIT"> </span><span class="STRN">" is already in use"</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>240</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>241</span> </span><span class="WHIT">        </span><span class="KEYW">var</span><span class="WHIT"> </span><span class="NAME">controller</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">new</span><span class="WHIT"> </span><span class="NAME">JsController</span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">opts</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>242</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="KEYW">typeof</span><span class="WHIT"> </span><span class="NAME">controller.initialize</span><span class="WHIT"> </span><span class="PUNC">==</span><span class="WHIT"> </span><span class="STRN">"function"</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>243</span> </span><span class="WHIT">            </span><span class="NAME">controller.initialize</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>244</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>245</span> </span><span class="WHIT">        </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">controller</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>246</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>247</span> </span><span class="WHIT">    
+<span class='line'>248</span>     </span><span class="COMM">/**
+<span class='line'>249</span>         Destroy a controller and unsubscribe its event listeners
+<span class='line'>250</span>         @param {String} name the name of the controller
+<span class='line'>251</span>         @name MBX.JsController.destroyController
+<span class='line'>252</span>         @function
+<span class='line'>253</span>     */</span><span class="WHIT">
+<span class='line'>254</span> </span><span class="WHIT">    </span><span class="NAME">publicObj.destroyController</span><span class="WHIT"> </span><span class="PUNC">=</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">name</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>255</span> </span><span class="WHIT">        </span><span class="KEYW">if</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">controllerCache</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
+<span class='line'>256</span> </span><span class="WHIT">            </span><span class="NAME">controllerCache</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="PUNC">.</span><span class="NAME">_unsubscribeToEvents</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>257</span> </span><span class="WHIT">            </span><span class="KEYW">delete</span><span class="WHIT"> </span><span class="NAME">controllerCache</span><span class="PUNC">[</span><span class="NAME">name</span><span class="PUNC">]</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>258</span> </span><span class="WHIT">        </span><span class="PUNC">}</span><span class="WHIT">
+<span class='line'>259</span> </span><span class="WHIT">    </span><span class="PUNC">}</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>260</span> </span><span class="WHIT">    
+<span class='line'>261</span>     </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">publicObj</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>262</span> </span><span class="PUNC">}</span><span class="PUNC">)</span><span class="PUNC">(</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
+<span class='line'>263</span> </span></pre></body></html>

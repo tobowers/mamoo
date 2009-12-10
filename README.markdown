@@ -1,7 +1,7 @@
 #Mamoo
 The Motionbox Advanced Model Observer Observer
 
-A light-weight MVC framework for separating concerns (Data model, views, related actions). It also provides a javscript queue system which lines functions up in an array and will execute them at an interval.
+A light-weight MVC framework for separating concerns (Data model, views, related actions). It also provides a javscript queue system which lines functions up in an array and will execute them at an interval based on conditions you set up.
 
 Full documentation can be found here: [http://tobowers.github.com/mamoo/](http://tobowers.github.com/mamoo/)
 
@@ -56,6 +56,8 @@ That'll give you a model with the standard model functions.
 * MBX.MyModel.find()
 * MBX.MyModel.findAll()
 * MBX.MyModel.count()
+* MBX.MyModel.set()
+* MBX.MyModel.get()
 
 Calling create will create an instance which will have its own methods.
     
@@ -79,6 +81,7 @@ This is where the magic happens. Controllers handle the events from models and m
 * onInstanceChange
 * onInstanceCreate
 * onInstanceDestroy
+* onAttributeChange
 
 example:
 
@@ -148,6 +151,9 @@ MBX.Queue is a queue system with some simple options
     var queue = MBX.Queue.create({
         interval: 1000, // the number of miliseconds between fires
         singleItem: true, // defaults to false - but if it's true, only the latest function added will be kept in the queue.
+        criteria: function () {
+            return true;
+        }// executes this function with every interval and sees if the queue should fire or not
     });
     
     queue.add(function () {
@@ -159,6 +165,19 @@ MBX.Queue is a queue system with some simple options
     queue.start();
 
 Because we specified "singleItem: true" above, *only* 'second func' would get alerted.
+
+# Everything is extensible
+
+You can extend Mamoo without modifying it using the extend() or extendInstancePrototype().  Models, Views, Controllers all have the extend method and Models have the extendInstancePrototype method.
+    
+    MBX.JsModel.extend({
+        someMethod: function () {}
+    }); // all Mamoo models will now have the someMethod method
+    
+    MBX.JsModel.extendInstancePrototype({
+        someInstanceMethod: function () {}
+    }); // all Mamoo model *instances* will now have the someInstanceMethod method
+    
 
 # A simple setup
 
@@ -175,7 +194,7 @@ Because we specified "singleItem: true" above, *only* 'second func' would get al
     });
 
 ## video_view.js
-    MBX.JsView.create({
+    VideoView = MBX.JsView.create({
         model: Video,
         onInstanceCreate: function (video) {
             var el = new Element("div", {id: "video_" + video.primaryKey()});

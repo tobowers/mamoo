@@ -402,12 +402,19 @@ MBX.JsModel = (function () {
             }
             this.attributes[key] = value;
             if (changed) {
-                MBX.EventHandler.fireCustom(MBX, this.Event.changeAttribute, {
-                    object: this,
-                    key: key
-                });
-                MBX.EventHandler.fireCustom(this, key + "_changed");
+                this._fireChangeEvent(key);
             }
+        },
+
+		
+        /**
+            Use to manually fire a change event on an attribute of a model.
+            @param {String} key the key of the attribute you want to fire the enent on
+            @example
+              Model.touch("myAttr");
+        */
+        touch: function (key) {
+             this._fireChangeEvent(key);
         },
         
         /**
@@ -456,7 +463,15 @@ MBX.JsModel = (function () {
         */
         onAttributeChange: function (func) {
             return MBX.EventHandler.subscribe(MBX, this.Event.changeAttribute, func);
-        }
+        },
+
+		_fireChangeEvent: function (key) {
+			MBX.EventHandler.fireCustom(MBX, this.Event.changeAttribute, {
+                object: this,
+                key: key
+            });
+            MBX.EventHandler.fireCustom(this, key + "_changed");
+		}
     };
     
     publicObj.Event = {

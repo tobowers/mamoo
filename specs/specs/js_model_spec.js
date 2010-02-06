@@ -144,6 +144,12 @@ Screw.Unit(function() {
                     it("should fire the key level event", function () {
                         expect(keyEventFired).to(be_true);
                     });
+
+					it("should allow you to touch the key and trigger change events", function () {
+						keyEventFired = false;
+						MyModel.touch("hi");
+						expect(keyEventFired).to(be_true);
+					});
                     
                     
                 });

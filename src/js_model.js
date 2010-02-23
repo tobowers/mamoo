@@ -132,7 +132,11 @@ MBX.JsModel = (function () {
         },
  
         /**
-            listen to an attribute of a model
+            listen to an attribute of a model.  The event passed to your listener will look like
+			{
+				object: //the instance that change,
+				key: 'the key that changed'
+			}
             @params key {String} the key to listen to
             @params func {Function} the function to pass to the EventHandler
             @returns an EventHandler subscription object
@@ -148,12 +152,13 @@ MBX.JsModel = (function () {
         },
         
         _fireChangeEvent: function (key) {
-            MBX.EventHandler.fireCustom(MBX, this.parentClass.Event.changeInstance, {
+			var changeObject = {
                 object: this,
                 key: key
-            });
+            };
+            MBX.EventHandler.fireCustom(MBX, this.parentClass.Event.changeInstance, changeObject);
             
-            MBX.EventHandler.fireCustom(this, key + "_changed");
+            MBX.EventHandler.fireCustom(this, key + "_changed", changeObject);
         }
 
     };

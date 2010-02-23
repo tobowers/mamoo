@@ -206,6 +206,9 @@ You can extend Mamoo without modifying it using the extend() or extendInstancePr
             el.updatesOn(video, "words");
             
             $("video_list").insert(el);
+        },
+        onInstanceDestroy: function (video) {
+            video.get('uiElement').remove();
         }
     });
 

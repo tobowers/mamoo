@@ -230,6 +230,26 @@ MBX.JsView = (function () {
         methsAndAttrs = methsAndAttrs || {};
         Object.extend(View.prototype, methsAndAttrs);
     };
+
+	
+	/* store info on an element - use prototypes store when available */
+	var store = function (element, key, value) {
+		if (typeof element.store == 'function') {
+			return element.store(key, value);
+		} else {
+			return element[key] = value;
+		}
+	};
+	
+	/* retrieve info on an element -use prototypes retrieve when available */
+	var retrieve = function (element, key) {
+		if (typeof element.retrieve == 'function') {
+			return element.retrieve(key);
+		} else {
+			return element[key];
+		}
+	};
+
     
     /** Added to prototype elements when a view is created
         allows you to observe particular keys of a model object
@@ -261,8 +281,11 @@ MBX.JsView = (function () {
         
         var sub = MBX.EventHandler.subscribe(obj, key + "_changed", changeHandler);
         
-        element.__JsViewSubscriptions = element.__JsViewSubscriptions || [];       
-        element.__JsViewSubscriptions.push(sub);
+		var existing = retrieve(element, "__JsViewSubscriptions");
+		existing = existing || [];
+		existing.push(sub);
+		store(element, "__JsViewSubscriptions", existing);
+		
         
         obj.__JsViewSubscriptions = obj.__JsViewSubscriptions || [];
         obj.__JsViewSubscriptions.push(sub);
@@ -285,9 +308,10 @@ MBX.JsView = (function () {
     */
     self.stopUpdating = function (element) {
         element = $(element);
-        if (element.__JsViewSubscriptions) {
-            while (element.__JsViewSubscriptions.length > 0) {
-                MBX.EventHandler.unsubscribe(element.__JsViewSubscriptions.pop());
+		var subscriptions = retrieve(element, "__JsViewSubscriptions");
+        if (subscriptions) {
+            while (subscriptions.length > 0) {
+                MBX.EventHandler.unsubscribe(subscriptions.pop());
             }
         }
         return element;
@@ -303,7 +327,7 @@ MBX.JsView = (function () {
     */
     self.assignInstance = function (element, instance) {
         element = $(element);
-        element.__JsViewMvcInstance = instance;
+        store(element, "__JsViewMvcInstance", instance);
         element.addClassName(MBX.JsView.modelCSS(instance.parentClass));
         element.addClassName(MBX.JsView.cssForInstance(instance));
         return element;
@@ -318,7 +342,7 @@ MBX.JsView = (function () {
           $("el").getInstance();  // == instance
     */
     self.getInstance = function (element, instance) {
-        return element.__JsViewMvcInstance;
+        return retrieve(element, "__JsViewMvcInstance");
     };
     
     Element.addMethods({

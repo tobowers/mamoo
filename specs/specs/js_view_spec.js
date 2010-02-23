@@ -84,7 +84,7 @@ Screw.Unit(function() {
                 });
                 
                 it("should add the subscription", function () {
-                    expect(mock.__JsViewSubscriptions.length).to(equal, 1);
+                    expect(mock.retrieve("__JsViewSubscriptions").length).to(equal, 1);
                 });
                 
                 it("should update from a class attribute", function () {
@@ -105,7 +105,7 @@ Screw.Unit(function() {
                     });
                     
                     it("should remove the event subscription", function () {
-                        expect(mock.__JsViewSubscriptions.length).to(equal, 0);
+                        expect(mock.retrieve("__JsViewSubscriptions").length).to(equal, 0);
                     });
                 });
                 

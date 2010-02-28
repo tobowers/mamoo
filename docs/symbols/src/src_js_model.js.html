@@ -443,7 +443,7 @@
 <span class='line'>436</span> </span><span class="WHIT">        </span><span class="COMM">/**
 <span class='line'>437</span>             A convenience method to subscribe to new model instances
 <span class='line'>438</span>             @example
-<span class='line'>439</span>               AModelInstance.onInstanceCreate(function (evt) { console.log(evt) });
+<span class='line'>439</span>               AModel.onInstanceCreate(function (evt) { console.log(evt) });
 <span class='line'>440</span>         */</span><span class="WHIT">
 <span class='line'>441</span> </span><span class="WHIT">        </span><span class="NAME">onInstanceCreate</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">            
 <span class='line'>442</span>             </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.Event.newInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
@@ -452,7 +452,7 @@
 <span class='line'>445</span>         </span><span class="COMM">/**
 <span class='line'>446</span>             A convenience method to subscribe to destroying model instances
 <span class='line'>447</span>             @example
-<span class='line'>448</span>               AModelInstance.onInstanceDestroy(function (evt) { console.log(evt); });
+<span class='line'>448</span>               AModel.onInstanceDestroy(function (evt) { console.log(evt); });
 <span class='line'>449</span>         */</span><span class="WHIT">
 <span class='line'>450</span> </span><span class="WHIT">        </span><span class="NAME">onInstanceDestroy</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>451</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.Event.destroyInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
@@ -461,7 +461,7 @@
 <span class='line'>454</span>         </span><span class="COMM">/**
 <span class='line'>455</span>             A convenience method to subscribe to changing model instances
 <span class='line'>456</span>             @example
-<span class='line'>457</span>               AModelInstance.onInstanceChange(function (evt) { console.log(evt); });
+<span class='line'>457</span>               AModel.onInstanceChange(function (evt) { console.log(evt); });
 <span class='line'>458</span>         */</span><span class="WHIT">
 <span class='line'>459</span> </span><span class="WHIT">        </span><span class="NAME">onInstanceChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>460</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.Event.changeInstance</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">
@@ -471,7 +471,7 @@
 <span class='line'>464</span>         </span><span class="COMM">/**
 <span class='line'>465</span>             A convenience method to subscribe to changing model attributes
 <span class='line'>466</span>             @example
-<span class='line'>467</span>                 AModelInstance.onAttributeChange(function (evt) { console.dir(evt); });
+<span class='line'>467</span>                 AModel.onAttributeChange(function (evt) { console.dir(evt); });
 <span class='line'>468</span>         */</span><span class="WHIT">
 <span class='line'>469</span> </span><span class="WHIT">        </span><span class="NAME">onAttributeChange</span><span class="PUNC">:</span><span class="WHIT"> </span><span class="KEYW">function</span><span class="WHIT"> </span><span class="PUNC">(</span><span class="NAME">func</span><span class="PUNC">)</span><span class="WHIT"> </span><span class="PUNC">{</span><span class="WHIT">
 <span class='line'>470</span> </span><span class="WHIT">            </span><span class="KEYW">return</span><span class="WHIT"> </span><span class="NAME">MBX.EventHandler.subscribe</span><span class="PUNC">(</span><span class="NAME">MBX</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">this.Event.changeAttribute</span><span class="PUNC">,</span><span class="WHIT"> </span><span class="NAME">func</span><span class="PUNC">)</span><span class="PUNC">;</span><span class="WHIT">

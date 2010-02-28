@@ -128,7 +128,17 @@ MBX.JsModel = (function () {
         */
         destroy: function () {
             delete this.parentClass.instanceCache[this.primaryKey()];
+            this.__MBXJsModelWasDestroyed = true;
             MBX.EventHandler.fireCustom(MBX, this.parentClass.Event.destroyInstance, { object: this });
+        },
+        
+        
+        /** has this instance been destroyed?
+            basically - things can keep a reference to objects that have actually been destroyed
+            this method will let you know if the instance still exists in the model
+        */
+        isDestroyed: function () {
+            return this.__MBXJsModelWasDestroyed;
         },
  
         /**

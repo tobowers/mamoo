@@ -462,6 +462,10 @@ Screw.Unit(function() {
                    expect(TH.eventCountFor(MyModel.Event.destroyInstance)).to(equal, 1);
                });
                
+               it("should respond with true to isDestroyed()", function () {
+                   expect(instance.isDestroyed()).to(be_true);
+               });
+               
            });
            
            describe('when updating keys', function () {

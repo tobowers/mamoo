@@ -445,6 +445,8 @@ Screw.Unit(function() {
                var primaryKey;
                before(function () {
                    TH.countEvent(MyModel.Event.destroyInstance);
+                   TH.countEvent(MyModel.Event.changeInstance);
+                   
                    primaryKey = instance.primaryKey();
                    instance.destroy();
                });
@@ -464,6 +466,12 @@ Screw.Unit(function() {
                
                it("should respond with true to isDestroyed()", function () {
                    expect(instance.isDestroyed()).to(be_true);
+               });
+               
+               it("should no longer fire change events", function () {
+                   instance.set('something', 'else');
+                   expect(TH.eventCountFor(MyModel.Event.changeInstance)).to(equal, 0);
+                   
                });
                
            });

@@ -162,13 +162,14 @@ MBX.JsModel = (function () {
         },
         
         _fireChangeEvent: function (key) {
-			var changeObject = {
-                object: this,
-                key: key
-            };
-            MBX.EventHandler.fireCustom(MBX, this.parentClass.Event.changeInstance, changeObject);
-            
-            MBX.EventHandler.fireCustom(this, key + "_changed", changeObject);
+            if (!this.isDestroyed()) {
+                var changeObject = {
+                    object: this,
+                    key: key
+                };
+                MBX.EventHandler.fireCustom(MBX, this.parentClass.Event.changeInstance, changeObject);
+                MBX.EventHandler.fireCustom(this, key + "_changed", changeObject);
+            }
         }
 
     };

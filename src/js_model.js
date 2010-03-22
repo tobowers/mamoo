@@ -128,7 +128,17 @@ MBX.JsModel = (function () {
         */
         destroy: function () {
             delete this.parentClass.instanceCache[this.primaryKey()];
+            this.__MBXJsModelWasDestroyed = true;
             MBX.EventHandler.fireCustom(MBX, this.parentClass.Event.destroyInstance, { object: this });
+        },
+        
+        
+        /** has this instance been destroyed?
+            basically - things can keep a reference to objects that have actually been destroyed
+            this method will let you know if the instance still exists in the model
+        */
+        isDestroyed: function () {
+            return this.__MBXJsModelWasDestroyed;
         },
  
         /**
@@ -152,13 +162,14 @@ MBX.JsModel = (function () {
         },
         
         _fireChangeEvent: function (key) {
-			var changeObject = {
-                object: this,
-                key: key
-            };
-            MBX.EventHandler.fireCustom(MBX, this.parentClass.Event.changeInstance, changeObject);
-            
-            MBX.EventHandler.fireCustom(this, key + "_changed", changeObject);
+            if (!this.isDestroyed()) {
+                var changeObject = {
+                    object: this,
+                    key: key
+                };
+                MBX.EventHandler.fireCustom(MBX, this.parentClass.Event.changeInstance, changeObject);
+                MBX.EventHandler.fireCustom(this, key + "_changed", changeObject);
+            }
         }
 
     };
@@ -436,7 +447,7 @@ MBX.JsModel = (function () {
         /**
             A convenience method to subscribe to new model instances
             @example
-              AModelInstance.onInstanceCreate(function (evt) { console.log(evt) });
+              AModel.onInstanceCreate(function (evt) { console.log(evt) });
         */
         onInstanceCreate: function (func) {            
             return MBX.EventHandler.subscribe(MBX, this.Event.newInstance, func);
@@ -445,7 +456,7 @@ MBX.JsModel = (function () {
         /**
             A convenience method to subscribe to destroying model instances
             @example
-              AModelInstance.onInstanceDestroy(function (evt) { console.log(evt); });
+              AModel.onInstanceDestroy(function (evt) { console.log(evt); });
         */
         onInstanceDestroy: function (func) {
             return MBX.EventHandler.subscribe(MBX, this.Event.destroyInstance, func);
@@ -454,7 +465,7 @@ MBX.JsModel = (function () {
         /**
             A convenience method to subscribe to changing model instances
             @example
-              AModelInstance.onInstanceChange(function (evt) { console.log(evt); });
+              AModel.onInstanceChange(function (evt) { console.log(evt); });
         */
         onInstanceChange: function (func) {
             return MBX.EventHandler.subscribe(MBX, this.Event.changeInstance, func);
@@ -464,7 +475,7 @@ MBX.JsModel = (function () {
         /**
             A convenience method to subscribe to changing model attributes
             @example
-                AModelInstance.onAttributeChange(function (evt) { console.dir(evt); });
+                AModel.onAttributeChange(function (evt) { console.dir(evt); });
         */
         onAttributeChange: function (func) {
             return MBX.EventHandler.subscribe(MBX, this.Event.changeAttribute, func);

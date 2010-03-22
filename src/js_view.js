@@ -253,6 +253,7 @@ MBX.JsView = (function () {
     
     /** Added to prototype elements when a view is created
         allows you to observe particular keys of a model object
+		You may also pass in "loosleyCoupled" and updates will happen with a setTimeout
         @name MBX.JsView.updatesOn
         @function
         @param {JsModel#instance} obj the model instance to watch
@@ -266,7 +267,8 @@ MBX.JsView = (function () {
         }
         element = $(element);
         opts = opts || {};
-        
+        var loosleyCoupled = opts.loosleyCoupled || false;
+
         var changeHandler = function (evt) {
             var content = obj.get(key);
             if (opts.preProcess) {
@@ -279,7 +281,7 @@ MBX.JsView = (function () {
             }
         };
         
-        var sub = MBX.EventHandler.subscribe(obj, key + "_changed", changeHandler);
+        var sub = MBX.EventHandler.subscribe(obj, key + "_changed", changeHandler, {defer: loosleyCoupled});
         
 		var existing = retrieve(element, "__JsViewSubscriptions");
 		existing = existing || [];

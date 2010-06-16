@@ -343,6 +343,11 @@ Screw.Unit(function() {
            it("should respond to primaryKey() with its primary key", function () {
                expect(instance.primaryKey()).to(equal, '1');
            });
+
+		   it("should allow you to change the primary key and still find objects", function () {
+				instance.set('nativePath', '2');
+				expect(MyModel.find('2')).to(equal, instance);
+		   });
            
            it('should allow finds by the primary key', function () {
                expect(MyModel.find('1')).to(equal, instance);

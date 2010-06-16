@@ -67,8 +67,12 @@ MBX.JsModel = (function () {
             if (this.attributes[key] != value) {
                 changed = true;
             }
+			var oldValue = this.attributes[key];
             this.attributes[key] = value;
             if (changed) {
+				if (key == this.parentClass.primaryKey) {
+					this._handlePrimaryKeyChange(oldValue, value);
+				}
                 this._fireChangeEvent(key);
             }
             return this;
@@ -170,7 +174,13 @@ MBX.JsModel = (function () {
                 MBX.EventHandler.fireCustom(MBX, this.parentClass.Event.changeInstance, changeObject);
                 MBX.EventHandler.fireCustom(this, key + "_changed", changeObject);
             }
-        }
+        },
+
+		_handlePrimaryKeyChange: function (oldValue, newValue) {
+			var instanceCache = this.parentClass.instanceCache;
+			delete instanceCache[oldValue];
+			instanceCache[newValue] = this;
+		}
 
     };
     

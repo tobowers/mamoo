@@ -178,8 +178,10 @@ MBX.JsModel = (function () {
 
 		_handlePrimaryKeyChange: function (oldValue, newValue) {
 			var instanceCache = this.parentClass.instanceCache;
-			delete instanceCache[oldValue];
-			instanceCache[newValue] = this;
+			if (instanceCache[oldValue]) {
+				delete instanceCache[oldValue]
+				instanceCache[newValue] = this;
+			}
 		}
 
     };
@@ -316,7 +318,7 @@ MBX.JsModel = (function () {
                     }
                     return obj;
                 } else {
-                    throw new Error("trying to create an instance of " + this.modelName + " with the same primary key: '" + obj.get(this.primaryKey) + "' as another instance");
+                    throw new Error("trying to create an instance of " + this.modelName + " with the same primary key: '" + obj.get(this.primaryKey) + "' as another instance. Caller was: " + arguments.callee.caller.toString());
                 }
             } else {
                 MBX.EventHandler.fireCustom(MBX, this.Event.newInstance, {

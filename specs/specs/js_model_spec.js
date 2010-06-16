@@ -348,6 +348,26 @@ Screw.Unit(function() {
 				instance.set('nativePath', '2');
 				expect(MyModel.find('2')).to(equal, instance);
 		   });
+		
+		   it("should still all work when you're doing this as a before create", function () {
+				var TempModel = MBX.JsModel.create('TempModel', {
+	                  primaryKey: 'nativePath',
+					  instanceMethods: {
+						 beforeCreate: function () {
+							if (!this.get('nativePath')) {
+								this.set('nativePath', 'cool');
+							}
+						 }
+					  }
+					  
+	            });
+	
+				instance = TempModel.create();
+				expect(TempModel.find(instance.primaryKey())).to(equal, instance);
+				instance.set('nativePath', '2');
+				expect(TempModel.find('2')).to(equal, instance);
+				
+		   });
            
            it('should allow finds by the primary key', function () {
                expect(MyModel.find('1')).to(equal, instance);

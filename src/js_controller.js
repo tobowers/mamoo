@@ -107,10 +107,6 @@ MBX.JsController = (function () {
             }     
         },
         
-        fireAfterRender: function () {
-            MBX.EventHandler.fireCustom(MBX, this.controllerName + "_" + MBX.JsController.Event.afterRender);
-        },
-        
         /**
             @private
             @requires MBX.JsModel

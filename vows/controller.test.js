@@ -1,6 +1,6 @@
 var vows = require('vows'),
     assert = require('assert');
-require("../lib/index");
+require("../lib/mamoo");
 
 var MBX = global.MBX;
 
@@ -15,7 +15,7 @@ vows.describe("a controller").addBatch({
                     topic.callback(null, obj, MyModel);
                 }
             });
-            MyModel.create()
+            MyModel.create();
         },
         "should get the object": function (err, obj, model) {
             assert.equal(obj.parentClass.modelName, model.modelName);

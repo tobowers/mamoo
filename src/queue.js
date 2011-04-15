@@ -33,10 +33,10 @@ MBX.Queue = MBX.JsModel.create("Queue", {
             if (timer) {
                 clearTimeout(timer);
             }
-            this.set('timer', setTimeout(function () {
+            this.set('timer', setTimeout(_(function () {
                 this._fireTimerEvent();
                 this._setupTimer();
-            }.bind(this), interval));            
+            }).bind(this), interval));
         },
         
         /** stop the queue
@@ -85,7 +85,7 @@ MBX.Queue = MBX.JsModel.create("Queue", {
             var iterator = function (f) {
                 return f == func;
             };
-            this.set("functions", $A(this.get("functions")).reject(iterator));
+            this.set("functions", _(this.get("functions")).reject(iterator));
         },
         
         /** returns but does not remove the next function in the queue */

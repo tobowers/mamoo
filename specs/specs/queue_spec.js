@@ -86,12 +86,12 @@ Screw.Unit(function() {
                     
                     describe("and then removing them", function () {
                         before(function () {
-                            expect(queue.get('functions').include(blankFunc)).to(be_true);
+                            expect(_(queue.get('functions')).indexOf(blankFunc)).to_not(equal, -1);
                             queue.remove(blankFunc);
                         });
                         
                         it("should remove the function from the queue", function () {
-                            expect(queue.get('functions').include(blankFunc)).to_not(be_true);
+                            expect(_(queue.get('functions')).indexOf(blankFunc)).to(equal, -1);
                         });
                     });
                     

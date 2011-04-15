@@ -104,10 +104,10 @@ MBX.JsView = (function () {
             var attributeEvent = this.model.Event.changeAttribute;
             var defer = this.looselyCoupled;
             
-            MBX.on(changeEvent, this._onInstanceChange.bind(this));
-            MBX.on(newEvent, this._onInstanceCreate.bind(this));
-            MBX.on(destroyEvent, this._onInstanceDestroy.bind(this));
-            MBX.on(attributeEvent, this._onAttributeChange.bind(this));
+            MBX.on(changeEvent, _(this._onInstanceChange).bind(this));
+            MBX.on(newEvent, _(this._onInstanceCreate).bind(this));
+            MBX.on(destroyEvent, _(this._onInstanceDestroy).bind(this));
+            MBX.on(attributeEvent, _(this._onAttributeChange).bind(this));
         }
         
     };

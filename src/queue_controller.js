@@ -18,7 +18,7 @@ MBX.QueueController = MBX.JsController.create("QueueController", {
     },
     
     onInstanceCreate: function (queue) {
-        var handler = this.handleTimerComplete.bind(this);
+        var handler = _(this.handleTimerComplete).bind(this);
         this.subscriptions[queue.primaryKey()] = handler;
         queue.on("timer_complete", handler);
     },

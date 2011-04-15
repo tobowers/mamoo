@@ -279,44 +279,44 @@ Screw.Unit(function() {
                 expect(onAttributeChangeCalled).to(equal, "hi");
             });
             
-            describe("instance CSS", function () {
-                
-                it("should return the css of the model", function () {
-                    expect(view.modelCSS()).to(equal, "mymodel");
-                    expect(view.modelCSS(".")).to(equal, ".mymodel");
-                });
-                
-                it("should be able to return the finder CSS from an instance", function () {
-                    expect(view.cssForInstance(instance)).to(equal, "mymodel_" + instance.primaryKey().toLowerCase().gsub(/[^\w\-]/, "_"));
-                });
-                
-            });
-            
+//            describe("instance CSS", function () {
+//
+//                it("should return the css of the model", function () {
+//                    expect(view.modelCSS()).to(equal, "mymodel");
+//                    expect(view.modelCSS(".")).to(equal, ".mymodel");
+//                });
+//
+//                it("should be able to return the finder CSS from an instance", function () {
+//                    expect(view.cssForInstance(instance)).to(equal, "mymodel_" + instance.primaryKey().toLowerCase().gsub(/[^\w\-]/, "_"));
+//                });
+//
+//            });
+//
              
         });
         
-        describe("loosely coupled view", function () {
-            before(function() {
-                Screw.MBXlooselyCoupledViewFired = false;
-                MyController = MBX.JsView.create({
-                    model: MyModel,
-                    looselyCoupled: true,
-                    onInstanceCreate: function () {
-                        Screw.MBXlooselyCoupledViewFired = true;
-                    }
-                });
-            });
-            
-            it("should defer the subscription when loosely coupled", function (me) {
-                MyModel.create();
-                expect(Screw.MBXlooselyCoupledViewFired).to(be_false);
-                using(me).wait(2).and_then(function () {
-                    expect(Screw.MBXlooselyCoupledViewFired).to(be_true);
-                });
-            });
-            
-            
-        });
+//        describe("loosely coupled view", function () {
+//            before(function() {
+//                Screw.MBXlooselyCoupledViewFired = false;
+//                MyController = MBX.JsView.create({
+//                    model: MyModel,
+//                    looselyCoupled: true,
+//                    onInstanceCreate: function () {
+//                        Screw.MBXlooselyCoupledViewFired = true;
+//                    }
+//                });
+//            });
+//
+//            it("should defer the subscription when loosely coupled", function (me) {
+//                MyModel.create();
+//                expect(Screw.MBXlooselyCoupledViewFired).to(be_false);
+//                using(me).wait(2).and_then(function () {
+//                    expect(Screw.MBXlooselyCoupledViewFired).to(be_true);
+//                });
+//            });
+//
+//
+//        });
         
     });
 });

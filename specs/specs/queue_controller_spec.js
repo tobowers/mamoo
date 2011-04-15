@@ -16,23 +16,24 @@ Screw.Unit(function() {
         
         it("should stop the queue on destroy", function () {
             var stopCalled = false;
-            queue.stop = queue.stop.wrap(function (oldStop) {
+            queue.oldStop = queue.stop;
+            queue.stop = function () {
                 stopCalled = true;
-                oldStop();
-            });
+                queue.oldStop();
+            };
             queue.destroy();
             expect(stopCalled).to(be_true);
         });
         
         describe("queue timing", function () {
-            var called;
+            var called = 0;
             before(function() {
                 called = 0;
                 queue.add(function () {
                     called++;
                 });
                 expect(MBX.QueueController.subscriptions[queue.primaryKey()]).to_not(be_null);
-                MBX.EventHandler.fireCustom(queue, "timer_complete", {
+                queue.emit("timer_complete", {
                     queue: queue
                 });
             });
@@ -44,17 +45,18 @@ Screw.Unit(function() {
             });
             
             it('should not fire the next function if criteria returns false', function () {
+                var newQueueCalled = 0;
                 var newQueue = MBX.Queue.create({
                     interval: 20000,
                     criteria: function () { return false; }
                 });
                 newQueue.add(function () {
-                    called++;
+                    newQueueCalled++;
                 });
-                MBX.EventHandler.fireCustom(newQueue, "timer_complete", {
+                newQueue.emit("timer_complete", {
                     queue: newQueue
                 });
-                expect(called).to(equal, 0);
+                expect(newQueueCalled).to(equal, 0);
                 newQueue.destroy();
             });
             

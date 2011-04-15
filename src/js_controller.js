@@ -143,19 +143,41 @@ MBX.JsController = (function () {
             if (!_(model).isArray()) {
                model = [model];
             }
-            
-            _(model).each(function (model) {
+
+            this.eventSubscriptions = [];
+
+            _(model).each(_(function (model) {
                 var changeEvent = model.Event.changeInstance;
                 var newEvent = model.Event.newInstance;
                 var destroyEvent = model.Event.destroyInstance;
                 var attributeEvent = model.Event.changeAttribute;
-                var defer = this.looselyCoupled;
+                //var defer = this.looselyCoupled;
 
-                MBX.on(changeEvent, this._onInstanceChange.bind(this));
-                MBX.on(newEvent, this._onInstanceCreate.bind(this));
-                MBX.on(destroyEvent, this._onInstanceDestroy.bind(this));
-                MBX.on(attributeEvent, this._onAttributeChange.bind(this));
-            }.bind(this));
+                var onInstanceChange =  _(this._onInstanceChange).bind(this);
+                var onInstanceCreate =  _(this._onInstanceCreate).bind(this);
+                var onInstanceDestroy = _(this._onInstanceDestroy).bind(this);
+                var onAttributeChange = _(this._onAttributeChange).bind(this);
+                MBX.on(changeEvent, onInstanceChange);
+                this.eventSubscriptions.push({name: changeEvent, handler: onInstanceChange});
+
+                MBX.on(newEvent, onInstanceCreate);
+                this.eventSubscriptions.push({name: newEvent, handler: onInstanceCreate});
+
+                MBX.on(destroyEvent, onInstanceDestroy);
+                this.eventSubscriptions.push({name: destroyEvent, handler: onInstanceDestroy});
+
+                MBX.on(attributeEvent, onAttributeChange);
+                this.eventSubscriptions.push({name: attributeEvent, handler: onAttributeChange});
+
+            }).bind(this));
+        },
+
+        _unsubscribeToEvents: function () {
+            if (this.eventSubscriptions && this.eventSubscriptions[0]) {
+                _(this.eventSubscriptions).each(function (obj) {
+                    MBX.removeListener(obj.name, obj.handler);
+                });
+            }
         }
     });
     
@@ -178,6 +200,19 @@ MBX.JsController = (function () {
     publicObj.extend = function (methsAndAttrs) {
         methsAndAttrs = methsAndAttrs || {};
         _(JsController.prototype).extend(methsAndAttrs);
+    };
+
+        /**
+        Destroy a controller and unsubscribe its event listeners
+        @param {String} name the name of the controller
+        @name MBX.JsController.destroyController
+        @function
+    */
+    publicObj.destroyController = function (name) {
+        if (controllerCache[name]) {
+            controllerCache[name]._unsubscribeToEvents();
+            delete controllerCache[name];
+        }
     };
     
     /**

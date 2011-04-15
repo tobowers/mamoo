@@ -18,16 +18,16 @@ MBX.QueueController = MBX.JsController.create("QueueController", {
     },
     
     onInstanceCreate: function (queue) {
-        this.subscriptions[queue.primaryKey()] = MBX.EventHandler.subscribe(queue, "timer_complete", this.handleTimerComplete.bind(this), {
-            defer: true
-        });
+        var handler = this.handleTimerComplete.bind(this);
+        this.subscriptions[queue.primaryKey()] = handler;
+        queue.on("timer_complete", handler);
     },
     
     onInstanceDestroy: function (queue) {
         this.renderNothing = true;
         var subscription = this.subscriptions[queue.primaryKey()];
         if (subscription) {
-            MBX.EventHandler.unsubscribe(subscription);
+            queue.removeListener("timer_complete", subscription);
             delete this.subscriptions[queue.primaryKey()];
         }
         queue.stop();

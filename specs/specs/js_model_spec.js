@@ -132,8 +132,8 @@ Screw.Unit(function() {
                             keyEventFired = evt;
                         };
                         
-                        MBX.EventHandler.subscribe(MBX, "MyModel_change_attribute", classFired);
-                        MBX.EventHandler.subscribe(MyModel, "hi_changed", keyFired);
+                        MBX.on("MyModel_change_attribute", classFired);
+                        MyModel.on("hi_changed", keyFired);
                         MyModel.set("hi", "something");
                     });
                     
@@ -423,7 +423,7 @@ Screw.Unit(function() {
            
            it("should be in the instances returned by findAll", function () {
                expect(MyModel.count()).to(equal, 1);
-               expect(MyModel.findAll().include(instance)).to(be_true);
+               expect(_(MyModel.findAll()).include(instance)).to_not(equal, -1);
            });
            
            it("should allow you to observe a key", function () {
@@ -458,14 +458,6 @@ Screw.Unit(function() {
                expect(MyModel.count()).to(equal, 1);
            });
            
-           it("should be able to be found by an element with the correct classname", function () {
-               var el = new Element("div", {
-                   className: MyView.cssForInstance(instance)
-               });
-               $("dom_test").update(el);
-               expect(MyModel.findByElement(el)).to(equal, instance);
-           });
-           
            describe("destroying an instance", function () {
                var primaryKey;
                before(function () {
@@ -481,7 +473,7 @@ Screw.Unit(function() {
                });
                
                it("should remove the instance from the cache", function () {
-                   expect(MyModel.findAll().include(instance)).to(be_false);
+                   expect(_(MyModel.findAll()).indexOf(instance)).to(equal, -1);
                    expect(MyModel.find(primaryKey)).to(be_null);
                });
                

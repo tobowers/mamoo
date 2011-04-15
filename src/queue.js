@@ -22,7 +22,7 @@ MBX.Queue = MBX.JsModel.create("Queue", {
         },
         
         _fireTimerEvent: function () {
-            MBX.EventHandler.fireCustom(this, "timer_complete", {
+            this.emit("timer_complete", {
                 queue: this
             });
         },

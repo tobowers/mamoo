@@ -3,6 +3,7 @@ if (!("MBX" in window)) {
         @ignore
     */
     MBX = {};
+    _(MBX).extend(EventEmitter.prototype);
 }
 
 /**
@@ -35,7 +36,7 @@ MBX.JsController = (function () {
         @name JsController
         @class
     */
-    JsController = function (name, opts) {
+    var JsController = function (name, opts) {
         opts = opts || {};
         if (!name) {
             throw new Error("A name must be specified");
@@ -45,18 +46,20 @@ MBX.JsController = (function () {
         }
         
         this.controllerName = name;
-        Object.extend(this, opts);
+        _(this).extend(opts);
         if (this.model) {
             this._subscribeToEvents();
         }
         controllerCache[name] = this;
         
-        MBX.EventHandler.fireCustom(MBX, publicObj.Event.newController, {
+        MBX.emit(publicObj.Event.newController, {
             object: this
         });
     };
+
+    _(JsController.prototype).extend(EventEmitter.prototype);
     
-    JsController.prototype = 
+    _(JsController.prototype).extend(
         /** @lends JsController */
         {
             
@@ -137,38 +140,24 @@ MBX.JsController = (function () {
         */
         _subscribeToEvents: function () {
             var model = this.model;
-            if (model.constructor != Array) {
+            if (!_(model).isArray()) {
                model = [model];
             }
             
-            model.each(function (model) {
+            _(model).each(function (model) {
                 var changeEvent = model.Event.changeInstance;
                 var newEvent = model.Event.newInstance;
                 var destroyEvent = model.Event.destroyInstance;
                 var attributeEvent = model.Event.changeAttribute;
                 var defer = this.looselyCoupled;
 
-                this.eventSubscriptions = [];
-                this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, changeEvent, this._onInstanceChange.bind(this), {defer: defer}));
-                this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, newEvent, this._onInstanceCreate.bind(this), {defer: defer}));
-                this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, destroyEvent, this._onInstanceDestroy.bind(this), {defer: defer}));
-                this.eventSubscriptions.push(MBX.EventHandler.subscribe(MBX, attributeEvent, this._onAttributeChange.bind(this), {defer: defer}));
+                MBX.on(changeEvent, this._onInstanceChange.bind(this));
+                MBX.on(newEvent, this._onInstanceCreate.bind(this));
+                MBX.on(destroyEvent, this._onInstanceDestroy.bind(this));
+                MBX.on(attributeEvent, this._onAttributeChange.bind(this));
             }.bind(this));
-        },
-        
-        /**
-            @private
-            @requires MBX.JsModel
-            @requires this.model
-        */
-        _unsubscribeToEvents: function () {
-            if (this.eventSubscriptions && this.eventSubscriptions[0]) {                
-                this.eventSubscriptions.each(function (subscription) {
-                    MBX.EventHandler.unsubscribe(subscription);
-                });
-            }
         }
-    };
+    });
     
     /**
         This is mostly used internally and is fired on MBX everytime a controller is created
@@ -188,7 +177,7 @@ MBX.JsController = (function () {
     */
     publicObj.extend = function (methsAndAttrs) {
         methsAndAttrs = methsAndAttrs || {};
-        Object.extend(JsController.prototype, methsAndAttrs);
+        _(JsController.prototype).extend(methsAndAttrs);
     };
     
     /**
@@ -239,19 +228,6 @@ MBX.JsController = (function () {
             controller.initialize();
         }
         return controller;
-    };
-    
-    /**
-        Destroy a controller and unsubscribe its event listeners
-        @param {String} name the name of the controller
-        @name MBX.JsController.destroyController
-        @function
-    */
-    publicObj.destroyController = function (name) {
-        if (controllerCache[name]) {
-            controllerCache[name]._unsubscribeToEvents();
-            delete controllerCache[name];
-        }
     };
     
     return publicObj;

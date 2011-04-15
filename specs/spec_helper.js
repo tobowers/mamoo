@@ -2,20 +2,22 @@ TH.eventCountCache = {};
 TH.eventSubscriptions = [];
     
 TH.countEvent = function (eventName) {
-    TH.Mock.eventCountCache[eventName] = 0;
-    TH.eventSubscriptions.push(MBX.EventHandler.subscribe([".mbx", MBX], eventName, function () {
-        TH.Mock.eventCountCache[eventName]++;
-    }));
+    TH.eventCountCache[eventName] = 0;
+    var handler = function () {
+        TH.eventCountCache[eventName]++;
+    };
+    MBX.on(eventName, handler);
+    TH.eventSubscriptions.push({name: eventName, handler: handler});
 };
     
 TH.eventCountFor = function (eventName) {
-    return TH.Mock.eventCountCache[eventName];
+    return TH.eventCountCache[eventName];
 };
 
 TH.resetEventCount = function () {
     TH.Mock.eventCountCache = {};
-    TH.eventSubscriptions.each(function (sub) {
-        MBX.EventHandler.unsubscribe(sub);
+    _(TH.eventSubscriptions).each(function (obj) {
+        MBX.removeListener(obj.name, obj.handler);
     });
     TH.Mock.eventSubscriptions = [];
 };
@@ -37,7 +39,7 @@ Screw.Unit(function() {
     before(function() {
         TH.resetEventCount();
         if (MBX.Queue) {
-            MBX.Queue.findAll().each(function (q) {
+            _(MBX.Queue.findAll()).each(function (q) {
                 q.destroy();
             });
         }

@@ -12,12 +12,13 @@ if (!("MBX" in window)) {
         @ignore
     */
     MBX = {};
+    _(MBX).extend(EventEmitter.prototype);
 }
 
 /** 
     use this as a more convienient (sometimes) method instead of .prototype.blah.prototype chaining.  It tends
     to be a real javascript way of sub-classing
-    
+
     @parm {Object} o the original object
     @returns a new object with the original object as a prototype
 */
@@ -133,7 +134,7 @@ MBX.JsModel = (function () {
         destroy: function () {
             delete this.parentClass.instanceCache[this.primaryKey()];
             this.__MBXJsModelWasDestroyed = true;
-            MBX.EventHandler.fireCustom(MBX, this.parentClass.Event.destroyInstance, { object: this });
+            MBX.emit(this.parentClass.Event.destroyInstance, { object: this });
         },
         
         
@@ -157,7 +158,7 @@ MBX.JsModel = (function () {
             @see MBX.EventHandler
         */
         observe: function (key, func) {
-            return MBX.EventHandler.subscribe(this, key + "_changed", func);
+            return this.on(key + "_changed", func);
         },
         
         /** @private */
@@ -171,8 +172,8 @@ MBX.JsModel = (function () {
                     object: this,
                     key: key
                 };
-                MBX.EventHandler.fireCustom(MBX, this.parentClass.Event.changeInstance, changeObject);
-                MBX.EventHandler.fireCustom(this, key + "_changed", changeObject);
+                MBX.emit(this.parentClass.Event.changeInstance, changeObject);
+                this.emit(key + "_changed", changeObject);
             }
         },
 
@@ -185,13 +186,15 @@ MBX.JsModel = (function () {
 		}
 
     };
+
+    _(oneJsModelInstance).extend(EventEmitter.prototype);
     
     /** 
         @class A single instance of MBX.JsModel
         @constructor
         @throws an error if there's no name, a name already exists or you specified a primaryKey and it wasn't a string
     */
-    JsModel = function (name, opts) {
+    var JsModel = function (name, opts) {
         opts = opts || {};
         if (!name) {
             throw new Error("A name must be specified");
@@ -202,7 +205,7 @@ MBX.JsModel = (function () {
         if (opts.primaryKey && (typeof opts.primaryKey != "string")) {
             throw new Error("primaryKey specified was not a string");
         }
-        Object.extend(this, opts);
+        _(this).extend(opts);
         
         /** the model name of this model
             @type String
@@ -228,7 +231,7 @@ MBX.JsModel = (function () {
         
         /** events that this model will fire. Use this to hook into (at a very low level) events
             @example
-              MBX.EventHandler.subscribe(MBX.cssClass, MyModel.Event.newInstance, function (instance) { // dostuff } );
+              MBX.on(MyModel.Event.newInstance, function (instance) { // dostuff } );
         */
         this.Event = {
             newInstance: this.modelName + "_new_instance",
@@ -256,7 +259,7 @@ MBX.JsModel = (function () {
               MyModel.create().myMethod() == "myDefault";
         */
         if (opts.instanceMethods) {
-            Object.extend(this.prototypeObject, opts.instanceMethods);
+            _(this.prototypeObject).extend(opts.instanceMethods);
         }
         
         modelCache[name] = this;
@@ -265,7 +268,7 @@ MBX.JsModel = (function () {
             this.initialize();
         }
         
-        MBX.EventHandler.fireCustom(MBX, "new_model", {
+        MBX.emit("new_model", {
             object: this
         });
     };
@@ -290,18 +293,18 @@ MBX.JsModel = (function () {
             obj.errors = null;
             obj.attributes = {};
             if (obj.defaults) {
-                Object.extend(obj.attributes, obj.defaults);
-                $H(obj.attributes).each(function (pair) {
-                    if (Object.isArray(pair.value)) {
-                        obj.defaults[pair.key] = pair.value.clone();
+                _(obj.attributes).extend(obj.defaults);
+                _(obj.attributes).each(function (value, key) {
+                    if (_(value).isArray()) {
+                        obj.defaults[key] = _(value).clone();
                     } else {
-                        if (typeof pair.value == "object") {
-                            obj.defaults[pair.key] == Object.clone(pair.value);
+                        if (typeof value == "object") {
+                            obj.defaults[key] = _.clone(value);
                         }
                     }
                 });
             }
-            Object.extend(obj.attributes, attrs);
+            _(obj.attributes).extend(attrs);
             if (typeof obj.beforeCreate == 'function') {
                 obj.beforeCreate();
             }
@@ -310,7 +313,7 @@ MBX.JsModel = (function () {
                 if (this.validateObject(obj)) {
                     obj._createGUID();
                     this.cacheInstance(obj);
-                    MBX.EventHandler.fireCustom(MBX, this.Event.newInstance, {
+                    MBX.emit(this.Event.newInstance, {
                         object: obj
                     });
                     if (typeof obj.afterCreate == "function") {
@@ -321,7 +324,7 @@ MBX.JsModel = (function () {
                     throw new Error("trying to create an instance of " + this.modelName + " with the same primary key: '" + obj.get(this.primaryKey) + "' as another instance. Caller was: " + arguments.callee.caller.toString());
                 }
             } else {
-                MBX.EventHandler.fireCustom(MBX, this.Event.newInstance, {
+                MBX.emit(this.Event.newInstance, {
                     object: obj
                 });
                 return obj;
@@ -351,7 +354,7 @@ MBX.JsModel = (function () {
         */
         extendInstances: function (attrs) {
             attrs = attrs || {};
-            Object.extend(this.prototypeObject, attrs);
+            _(this.prototypeObject).extend(attrs);
         },
         
         /** store the instance into the cache. this is mostly used internally
@@ -376,37 +379,14 @@ MBX.JsModel = (function () {
         
         /** @returns all instances of this model */
         findAll: function () {
-            return $H(this.instanceCache).values();
+            return _(this.instanceCache).values();
         },
         
         /** destroy all instances in the instance cache */
         flush: function () {
             this.instanceCache = {};
         },
-        
-        // does this belong in the views?
-        /** given a domElement with certain classes - return the instance that it belongs to
-            @param {DomElement} el the element which has the correct classes on it
-            @returns an instance of this model or null
-        */
-        findByElement: function (el) {
-            el = $(el);
-            var modelCss = this.modelName.toLowerCase();
-            var match = el.className.match(new RegExp(modelCss + "_([^\\s$]+)"));
-            if (match) {
-                var findIterator = function (pair) {
-                    if (pair[0].gsub(/[^\w\-]/, "_").toLowerCase() == match[1]) {
-                        return true;
-                    }
-                };
-                // find will return an array where result[0] is "key" and result[1] is "value"
-                var instance = $H(this.instanceCache).find(findIterator);
-                if (instance) {
-                    return instance[1];
-                }
-            }
-        },
-        
+
         /** Gives back the number of cached instances stored in this model
             @returns {number} number of instances   */
         count: function () {
@@ -462,7 +442,7 @@ MBX.JsModel = (function () {
               AModel.onInstanceCreate(function (evt) { console.log(evt) });
         */
         onInstanceCreate: function (func) {            
-            return MBX.EventHandler.subscribe(MBX, this.Event.newInstance, func);
+            return MBX.on(this.Event.newInstance, func);
         },
         
         /**
@@ -471,7 +451,7 @@ MBX.JsModel = (function () {
               AModel.onInstanceDestroy(function (evt) { console.log(evt); });
         */
         onInstanceDestroy: function (func) {
-            return MBX.EventHandler.subscribe(MBX, this.Event.destroyInstance, func);
+            return MBX.on(this.Event.destroyInstance, func);
         },
         
         /**
@@ -480,7 +460,7 @@ MBX.JsModel = (function () {
               AModel.onInstanceChange(function (evt) { console.log(evt); });
         */
         onInstanceChange: function (func) {
-            return MBX.EventHandler.subscribe(MBX, this.Event.changeInstance, func);
+            return MBX.on(this.Event.changeInstance, func);
         },
         
         
@@ -490,17 +470,19 @@ MBX.JsModel = (function () {
                 AModel.onAttributeChange(function (evt) { console.dir(evt); });
         */
         onAttributeChange: function (func) {
-            return MBX.EventHandler.subscribe(MBX, this.Event.changeAttribute, func);
+            return MBX.on(this.Event.changeAttribute, func);
         },
 
 		_fireChangeEvent: function (key) {
-			MBX.EventHandler.fireCustom(MBX, this.Event.changeAttribute, {
+			MBX.emit(this.Event.changeAttribute, {
                 object: this,
                 key: key
             });
-            MBX.EventHandler.fireCustom(this, key + "_changed");
+            this.emit(key + "_changed", {object: this});
 		}
     };
+
+    _(JsModel.prototype).extend(EventEmitter.prototype);
     
     publicObj.Event = {
         newModel: "new_model"
@@ -539,7 +521,7 @@ MBX.JsModel = (function () {
     */
     publicObj.extend = function (methsAndAttrs) {
         methsAndAttrs = methsAndAttrs || {};
-        Object.extend(JsModel.prototype, methsAndAttrs);
+        _(JsModel.prototype).extend(methsAndAttrs);
     };
     
     /**
@@ -549,12 +531,12 @@ MBX.JsModel = (function () {
         @param {Object} methsAndAttrs the methods and attributes to extend all models' instances with
     */
     publicObj.extendInstancePrototype = function (methsAndAttrs) {
-        Object.extend(oneJsModelInstance, methsAndAttrs);
+        _(oneJsModelInstance).extend(methsAndAttrs);
     };
     
     /**
-           Destroy a controller and unsubscribe its event listeners
-           @param {String} name the name of the controller
+           Destroy a model
+           @param {String} name the name of the model
            @name MBX.JsModel.destroyModel
            @function
    */

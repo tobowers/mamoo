@@ -2,14 +2,22 @@
 directory = File.dirname(__FILE__)
 require "#{directory}/jsminim.rb"
 
-filename = "mamoo_min.js"
-puts "Creating '#{directory}/../#{filename}'"
+browser = "mamoo_min.js"
+commonjs = "mamoo_min_common.js"
 
-File.open("#{directory}/../#{filename}", "w") do |file|
-  Dir.glob("#{directory}/../src/*.js") do |filename|
+shared_package = ''
+Dir.glob("#{directory}/../src/*.js") do |filename|
     puts "processing #{filename}"
-    file << JsminImproved.jsmin(File.read(filename))
-  end
+    shared_package << JsminImproved.jsmin(File.read(filename))
+end
+
+File.open("#{directory}/../#{browser}", "w") do |file|
+  file << JsminImproved.jsmin(File.read("#{directory}/../dependencies/event_emitter.js"))
+  file << shared_package
+end
+
+File.open("#{directory}/../#{commonjs}", "w") do |file|
+  file << shared_package
 end
 
 puts "building documentation"

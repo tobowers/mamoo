@@ -1,11 +1,3 @@
-if (!("MBX" in window)) {
-    /** @namespace
-        @ignore
-    */
-    MBX = {};
-    _(MBX).extend(EventEmitter.prototype);
-}
-
 /** this is the view part of the MVC framework
     handle updates and creations and deletes of registered
     objects and classes

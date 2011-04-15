@@ -1,11 +1,3 @@
-if (!("MBX" in window)) {
-    /** @namespace 
-        @ignore
-    */
-    MBX = {};
-    _(MBX).extend(EventEmitter.prototype);
-}
-
 /**
     Create and extend controllers
     @class

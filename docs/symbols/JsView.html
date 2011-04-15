@@ -193,8 +193,6 @@ ul.inheritsList
 	
 	<li><a href="../symbols/JsController.html">JsController</a></li>
 	
-	<li><a href="../symbols/JsModel.html">JsModel</a></li>
-	
 	<li><a href="../symbols/JsModel%23instance.html">JsModel#instance</a></li>
 	
 	<li><a href="../symbols/JsView.html">JsView</a></li>
@@ -283,64 +281,10 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">JsView.<b><a href="../symbols/JsView.html#.cssForInstance">cssForInstance</a></b>(instance, prePend)
-								</div>
-								<div class="description">given an instance of a model, give the recommended instance class</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
 								<div class="fixedFont">JsView.<b><a href="../symbols/JsView.html#.deactivate">deactivate</a></b>()
 								</div>
 								<div class="description">quiets all events on this view, your callbacks will
             not get called</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">JsView.<b><a href="../symbols/JsView.html#.div">div</a></b>(className, opts)
-								</div>
-								<div class="description">helper function to spit out divs</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">JsView.<b><a href="../symbols/JsView.html#.domCollections">domCollections</a></b>()
-								</div>
-								<div class="description">return all the various collections of dom elements that have the appropriate classes</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">JsView.<b><a href="../symbols/JsView.html#.elementsFromInstance">elementsFromInstance</a></b>(instance)
-								</div>
-								<div class="description">given an instance, return the relevent elements</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">JsView.<b><a href="../symbols/JsView.html#.imageTag">imageTag</a></b>(src, opts)
-								</div>
-								<div class="description">helper function to spit out imageTag</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">JsView.<b><a href="../symbols/JsView.html#.modelCSS">modelCSS</a></b>(prePend)
-								</div>
-								<div class="description">return the CSS class for the model associated with this view</div>
 							</td>
 						</tr>
 					
@@ -432,55 +376,6 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name=".cssForInstance"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">JsView.</span><b>cssForInstance</b>(instance, prePend)
-					
-					</div>
-					<div class="description">
-						given an instance of a model, give the recommended instance class
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<b>instance</b>
-									
-								</dt>
-								<dd></dd>
-							
-								<dt>
-									<b>prePend</b>
-									
-								</dt>
-								<dd></dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">See:</dt>
-							
-								<dd><a href="../symbols/MBX.JsView.html#.cssForInstance">MBX.JsView.cssForInstance</a></dd>
-							
-							</dl>
-						
-
-					<hr />
-				
 					<a name=".deactivate"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
@@ -505,222 +400,6 @@ ul.inheritsList
 						
 						
 
-					<hr />
-				
-					<a name=".div"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">JsView.</span><b>div</b>(className, opts)
-					
-					</div>
-					<div class="description">
-						helper function to spit out divs
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>className</b>
-									
-								</dt>
-								<dd>the classes you want to add to the div</dd>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>opts</b>
-									
-								</dt>
-								<dd>(optional) any opts to pass to new Element</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd>div DOM element</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name=".domCollections"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{Array}</span>
-					<span class="light">JsView.</span><b>domCollections</b>()
-					
-					</div>
-					<div class="description">
-						return all the various collections of dom elements that have the appropriate classes
-						
-						
-					</div>
-					
-					
-					
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Array}</span> array of extended dom elements that match collection CSS</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name=".elementsFromInstance"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{Array}</span>
-					<span class="light">JsView.</span><b>elementsFromInstance</b>(instance)
-					
-					</div>
-					<div class="description">
-						given an instance, return the relevent elements
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/JsModel%23instance.html">JsModel#instance</a>}</span> <b>instance</b>
-									
-								</dt>
-								<dd>the instance you want to find elements</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{Array}</span> an array of extended dom elements that match the relevent class names</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name=".imageTag"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">JsView.</span><b>imageTag</b>(src, opts)
-					
-					</div>
-					<div class="description">
-						helper function to spit out imageTag
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>src</b>
-									
-								</dt>
-								<dd>the url for the image</dd>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>opts</b>
-									
-								</dt>
-								<dd>(optional) any opts to pass to new Element</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd>img DOM element</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name=".modelCSS"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">JsView.</span><b>modelCSS</b>(prePend)
-					
-					</div>
-					<div class="description">
-						return the CSS class for the model associated with this view
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>prePend</b>
-									
-								</dt>
-								<dd>any string to prepend to the model</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">See:</dt>
-							
-								<dd><a href="../symbols/MBX.JsView.html#.modelCSS">MBX.JsView.modelCSS</a></dd>
-							
-							</dl>
-						
-
 					
 				
 			
@@ -735,7 +414,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://www.jsdoctoolkit.org/" target="_blank">JsDoc Toolkit</a> 2.1.0 on Wed Jun 16 2010 17:44:09 GMT-0400 (EDT)
+			Documentation generated by <a href="http://www.jsdoctoolkit.org/" target="_blank">JsDoc Toolkit</a> 2.1.0 on Fri Apr 15 2011 14:10:17 GMT-0400 (EDT)
 		</div>
 	</body>
 </html>

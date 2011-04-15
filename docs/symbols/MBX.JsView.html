@@ -193,8 +193,6 @@ ul.inheritsList
 	
 	<li><a href="../symbols/JsController.html">JsController</a></li>
 	
-	<li><a href="../symbols/JsModel.html">JsModel</a></li>
-	
 	<li><a href="../symbols/JsModel%23instance.html">JsModel#instance</a></li>
 	
 	<li><a href="../symbols/JsView.html">JsView</a></li>
@@ -276,16 +274,6 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">MBX.JsView.<b><a href="../symbols/MBX.JsView.html#.assignInstance">assignInstance</a></b>()
-								</div>
-								<div class="description">attach a JsModel#instance to this DOM element
-        Preferred method of accessing this function is through extended elements</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
 								<div class="fixedFont">MBX.JsView.<b><a href="../symbols/MBX.JsView.html#.create">create</a></b>(opts)
 								</div>
 								<div class="description">create a new view handler.</div>
@@ -295,58 +283,9 @@ ul.inheritsList
 						<tr>
 							<td class="attributes">&lt;static&gt; &nbsp;</td>
 							<td class="nameDescription">
-								<div class="fixedFont">MBX.JsView.<b><a href="../symbols/MBX.JsView.html#.cssForInstance">cssForInstance</a></b>(instance, prePend)
-								</div>
-								<div class="description">given an instance of a model, give the recommended instance class</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
 								<div class="fixedFont">MBX.JsView.<b><a href="../symbols/MBX.JsView.html#.extend">extend</a></b>(methsAndAttrs)
 								</div>
 								<div class="description">call extend() to add methods and/or attributes to ALL views</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">MBX.JsView.<b><a href="../symbols/MBX.JsView.html#.getInstance">getInstance</a></b>()
-								</div>
-								<div class="description">fetch a JsModel#instance from this DOM element
-        Preferred method of accessing this function is through extended elements</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">MBX.JsView.<b><a href="../symbols/MBX.JsView.html#.modelCSS">modelCSS</a></b>(model, prePend)
-								</div>
-								<div class="description">Grab give a model - get a css.</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">MBX.JsView.<b><a href="../symbols/MBX.JsView.html#.stopUpdating">stopUpdating</a></b>(element)
-								</div>
-								<div class="description">stop updating this instance, all event handlers are removed
-        Preferred method of accessing this function is through extended elements</div>
-							</td>
-						</tr>
-					
-						<tr>
-							<td class="attributes">&lt;static&gt; &nbsp;</td>
-							<td class="nameDescription">
-								<div class="fixedFont">MBX.JsView.<b><a href="../symbols/MBX.JsView.html#.updatesOn">updatesOn</a></b>(obj, key, opts)
-								</div>
-								<div class="description">Added to prototype elements when a view is created
-        allows you to observe particular keys of a model object
-		You may also pass in "loosleyCoupled" and updates will happen with a setTimeout</div>
 							</td>
 						</tr>
 					
@@ -399,37 +338,6 @@ ul.inheritsList
 				<div class="sectionTitle">
 					Method Detail
 				</div>
-				
-					<a name=".assignInstance"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">MBX.JsView.</span><b>assignInstance</b>()
-					
-					</div>
-					<div class="description">
-						attach a JsModel#instance to this DOM element
-        Preferred method of accessing this function is through extended elements
-						
-						
-					</div>
-					
-					
-					
-					<pre class="code">          $("el").assignInstance(instance);
-          $("el").getInstance();  // == instance</pre>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
 				
 					<a name=".create"> </a>
 					<div class="fixedFont">&lt;static&gt; 
@@ -488,55 +396,6 @@ ul.inheritsList
 
 					<hr />
 				
-					<a name=".cssForInstance"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{String}</span>
-					<span class="light">MBX.JsView.</span><b>cssForInstance</b>(instance, prePend)
-					
-					</div>
-					<div class="description">
-						given an instance of a model, give the recommended instance class
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/JsModel%23instance.html">JsModel#instance</a>}</span> <b>instance</b>
-									
-								</dt>
-								<dd>the JsModel instance</dd>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>prePend</b>
-									
-								</dt>
-								<dd>any string you want prepended to the return (to avoid "." + MBX.JsView.modelCSS(model))</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{String}</span> a long-ish css class for a specific instance</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
 					<a name=".extend"> </a>
 					<div class="fixedFont">&lt;static&gt; 
 					
@@ -571,191 +430,6 @@ ul.inheritsList
 						
 						
 
-					<hr />
-				
-					<a name=".getInstance"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					
-					<span class="light">MBX.JsView.</span><b>getInstance</b>()
-					
-					</div>
-					<div class="description">
-						fetch a JsModel#instance from this DOM element
-        Preferred method of accessing this function is through extended elements
-						
-						
-					</div>
-					
-					
-					
-					<pre class="code">          $("el").assignInstance(instance);
-          $("el").getInstance();  // == instance</pre>
-					
-					
-					
-						
-						
-						
-						
-						
-						
-						
-
-					<hr />
-				
-					<a name=".modelCSS"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{String}</span>
-					<span class="light">MBX.JsView.</span><b>modelCSS</b>(model, prePend)
-					
-					</div>
-					<div class="description">
-						Grab give a model - get a css... pass in "." as the second arg to give it css-style return
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/JsModel.html">JsModel</a>}</span> <b>model</b>
-									
-								</dt>
-								<dd>the model you want the css for</dd>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>prePend</b>
-									
-								</dt>
-								<dd>any string you want prepended to the return (to avoid "." + MBX.JsView.modelCSS(model))</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{String}</span> a css class for a model</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name=".stopUpdating"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{DOM Element}</span>
-					<span class="light">MBX.JsView.</span><b>stopUpdating</b>(element)
-					
-					</div>
-					<div class="description">
-						stop updating this instance, all event handlers are removed
-        Preferred method of accessing this function is through extended elements
-						
-						
-					</div>
-					
-					
-					
-					<pre class="code">          $("el").stopUpdating();</pre>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{DOM Element}</span> <b>element</b>
-									
-								</dt>
-								<dd>the element to stop observing - this will usually be filled for you by prototype</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{DOM Element}</span> element for chaining</dd>
-							
-							</dl>
-						
-						
-						
-
-					<hr />
-				
-					<a name=".updatesOn"> </a>
-					<div class="fixedFont">&lt;static&gt; 
-					
-					<span class="light">{DOM element}</span>
-					<span class="light">MBX.JsView.</span><b>updatesOn</b>(obj, key, opts)
-					
-					</div>
-					<div class="description">
-						Added to prototype elements when a view is created
-        allows you to observe particular keys of a model object
-		You may also pass in "loosleyCoupled" and updates will happen with a setTimeout
-						
-						
-					</div>
-					
-					
-					
-						
-							<dl class="detailList">
-							<dt class="heading">Parameters:</dt>
-							
-								<dt>
-									<span class="light fixedFont">{<a href="../symbols/JsModel%23instance.html">JsModel#instance</a>}</span> <b>obj</b>
-									
-								</dt>
-								<dd>the model instance to watch</dd>
-							
-								<dt>
-									<span class="light fixedFont">{String}</span> <b>key</b>
-									
-								</dt>
-								<dd>the key to watch</dd>
-							
-								<dt>
-									<span class="light fixedFont">{Object}</span> <b>opts</b>
-									
-								</dt>
-								<dd>handler or preProcess functions to execute</dd>
-							
-							</dl>
-						
-						
-						
-						
-						
-							<dl class="detailList">
-							<dt class="heading">Returns:</dt>
-							
-								<dd><span class="light fixedFont">{DOM element}</span> the dom element that was called (for chaining)</dd>
-							
-							</dl>
-						
-						
-						
-
 					
 				
 			
@@ -770,7 +444,7 @@ ul.inheritsList
 <!-- ============================== footer ================================= -->
 		<div class="fineprint" style="clear:both">
 			
-			Documentation generated by <a href="http://www.jsdoctoolkit.org/" target="_blank">JsDoc Toolkit</a> 2.1.0 on Wed Jun 16 2010 17:44:09 GMT-0400 (EDT)
+			Documentation generated by <a href="http://www.jsdoctoolkit.org/" target="_blank">JsDoc Toolkit</a> 2.1.0 on Fri Apr 15 2011 14:10:19 GMT-0400 (EDT)
 		</div>
 	</body>
 </html>

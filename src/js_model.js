@@ -1,21 +1,4 @@
 /**
-    @fileOverview 
-      It all starts with the Model. Just like in Rails, the model should really only deal with data and methods surrounding data. It shouldn't interact with the UI or (and this is up for debate) the server. Things like pagination, etc should be handled in the controller.
-    @example
-      MBX.MyModel = MBX.JsModel.create("MyModel");
-    @author  <a href="mailto:topper@motionbox.com">Topper Bowers</a>
-    @version 0.1  
-*/
-
-if (!("MBX" in window)) {
-    /** @namespace 
-        @ignore
-    */
-    MBX = {};
-    _(MBX).extend(EventEmitter.prototype);
-}
-
-/** 
     use this as a more convienient (sometimes) method instead of .prototype.blah.prototype chaining.  It tends
     to be a real javascript way of sub-classing
 

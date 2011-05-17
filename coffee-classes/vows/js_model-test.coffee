@@ -30,5 +30,18 @@ vows.describe("jsModel").addBatch(
         "should have object that is instance of EventMaker": (evt) ->
             assert.instanceOf(evt.object, EventMaker)
                 
-            
+    "change on the model":
+        topic: () ->
+            callback = @callback
+            obj = new EventMaker()
+            EventMaker.on "change", (evt) ->
+                callback(null, evt)
+            obj.set("dude", true)
+            return
+        "should have "
+            "should have key value": (evt) ->
+                assert.equal(evt.key, "dude")
+            "should have object that is instance of EventMaker": (evt) ->
+                assert.instanceOf(evt.object, EventMaker)
+                
 ).export(module)

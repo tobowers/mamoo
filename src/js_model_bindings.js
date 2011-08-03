@@ -11,29 +11,28 @@
         return this;
     };
 
-    //handler receives (payload, targetObj, targetAttribute);
+    //handler receives (payload, targetObj, targetAttribute, model, key);
     Binder.prototype.handleChange = function (payload) {
-
         var data = this.modelObj.get(this.modelKey);
-        console.log("handling change", data);
+//        console.log("handling change", data);
         if (this.opts.preProcess) {
             data = this.opts.preProcess(data);
         }
         if (this.opts.handler) {
-            this.opts.handler(data, this.targetObj, this.targetAttribute);
+            this.opts.handler(data, this.targetObj, this.targetAttribute, this.modelObj, this.modelKey);
         } else {
             this.targetObj[this.targetAttribute] = data;
         }
     };
 
     Binder.prototype.listen = function () {
-        console.log("listening to", this.eventKey);
+//        console.log("listening to", this.eventKey);
         this.modelObj.on(this.eventKey, this.handleChange);
         return this;
     };
 
-    Binder.stopListening = function () {
-        this.modelObj.stopListening(this.eventKey, this.handleChange);
+    Binder.prototype.stopUpdating = function () {
+        this.modelObj.removeListener(this.eventKey, this.handleChange);
     };
 
 

@@ -206,6 +206,20 @@ Screw.Unit(function() {
             
             expect(MyModel.create().get('myAttr')).to(equal, "cool");
         });
+
+        it("should not allow a null default to become an empty object", function () {
+            MyModel = MBX.JsModel.create("MyModel", {
+                instanceMethods: {
+                    defaults: {
+                        myAttr: null
+                    }
+                }
+            });
+
+            expect(MyModel.create().get('myAttr')).to(equal, null);
+            // strangely this only seems to have happened the second time
+            expect(MyModel.create().get('myAttr')).to(equal, null);
+        });
                 
         describe("a new model", function () {
             before(function () {

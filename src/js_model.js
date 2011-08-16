@@ -281,7 +281,7 @@ MBX.JsModel = (function () {
                     if (_(value).isArray()) {
                         obj.defaults[key] = _(value).clone();
                     } else {
-                        if (typeof value == "object") {
+                        if (value != null && typeof value == "object") {
                             obj.defaults[key] = _.clone(value);
                         }
                     }

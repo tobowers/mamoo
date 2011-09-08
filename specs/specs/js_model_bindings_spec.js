@@ -13,11 +13,11 @@ Screw.Unit(function() {
            var binding, testObj = {};
            before(function () {
                testObj = {};
-               binding = MyModel.updatesOn("key", {
+               binding = MyModel.updatesOn("originalKey", {
                    object: testObj,
                    attribute: "testKey"
                });
-               MyModel.set("key", "something");
+               MyModel.set("originalKey", "something");
            });
            it("should update objects on attribute changes", function () {
                expect(testObj.testKey).to(equal, "something");
@@ -25,8 +25,23 @@ Screw.Unit(function() {
 
            it("should be able to stop listening", function () {
                binding.stopUpdating();
-               MyModel.set("key", "somethingElse");
+               MyModel.set("originalKey", "somethingElse");
                expect(testObj.testKey).to(equal, "something")
+           });
+           
+           it('should not update more than one model', function () {
+               var NewModel = MBX.JsModel.create("NewModel");
+               var calledMyHandler = false;
+               NewModel.updatesOn("originalKey", {
+                   object: testObj,
+                   attribute: 'testKey',
+                   handler: function () {
+                       calledMyHandler = true;
+                   }
+               });
+               MyModel.set("originalKey", "somethingElse");
+               expect(calledMyHandler).to(be_false);
+			   MBX.JsModel.destroyModel("NewModel");
            });
 
            describe("with a preprocessor", function () {

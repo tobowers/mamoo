@@ -150,6 +150,18 @@ Screw.Unit(function() {
 						MyModel.touch("hi");
 						expect(keyEventFired).to(be_true);
 					});
+					
+					it("should not fire events on two models", function () {
+					    var newModelKeyEventFired = false;
+					    var NewModel = MBX.JsModel.create("NewModel");
+					    NewModel.on("oldModelKey_changed", function () {
+                            console.log("new model received the event");
+					        newModelKeyEventFired = true;
+					    });
+					    MyModel.touch("oldModelKey");
+					    expect(newModelKeyEventFired).to(be_false);
+					    MBX.JsModel.destroyModel("NewModel");
+					});
                     
                     
                 });

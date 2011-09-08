@@ -1,12 +1,17 @@
 (function () {
+    var id = 0;
+    
     var Binder = function (modelObj, modelKey, targetObj, targetAttribute, opts) {
         opts = opts || {};
+        this.id = id;
+        id++;
         this.targetObj = targetObj;
         this.modelObj = modelObj;
         this.modelKey = modelKey;
         this.targetAttribute = targetAttribute;
         this.opts = opts;
         this.eventKey = this.modelKey + "_changed";
+        console.log("creating a binder for handling: " + this.eventKey + "on", modelObj);
         this.handleChange = _(this.handleChange).bind(this);
         return this;
     };
@@ -14,7 +19,7 @@
     //handler receives (payload, targetObj, targetAttribute, model, key);
     Binder.prototype.handleChange = function (payload) {
         var data = this.modelObj.get(this.modelKey);
-//        console.log("handling change", data);
+        console.log("handling change", payload, this);
         if (this.opts.preProcess) {
             data = this.opts.preProcess(data);
         }

@@ -171,7 +171,7 @@ MBX.JsModel = (function () {
     };
 
     _(oneJsModelInstance).extend(EventEmitter.prototype);
-    
+
     /** 
         @class A single instance of MBX.JsModel
         @constructor
@@ -461,12 +461,13 @@ MBX.JsModel = (function () {
                 object: this,
                 key: key
             });
+            //console.log("fire change event on ", key, " on obj ", this);
             this.emit(key + "_changed", {object: this});
 		}
     };
 
     _(JsModel.prototype).extend(EventEmitter.prototype);
-    
+
     publicObj.Event = {
         newModel: "new_model"
     };

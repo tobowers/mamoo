@@ -1,188 +1,454 @@
-/**
- * @preserve EventEmitter v1.0.0
- *
- * Copyright 2011, Oliver Caldwell (flowdev.co.uk)
- * Dual licensed under the MIT or GPL Version 2 licenses.
- * https://github.com/Wolfy87/Listen
- */
+(function(exports, undefined) {
 
-// Initialise the class
-function EventEmitter() {}
+  var isArray = Array.isArray ? Array.isArray : function _isArray(obj) {
+    return Object.prototype.toString.call(obj) === "[object Array]";
+  };
+  var defaultMaxListeners = 10;
 
-// Initialise the storage variables
-EventEmitter.prototype._events = {};
-EventEmitter.prototype._listeners = [];
+  function init() {
+    this._events = new Object;
+  }
 
-// Has to be an array to stop it being moved out of the prototype on change
-EventEmitter.prototype._maxListeners = [10];
+  function configure(conf) {
 
-/**
- * Adds a listener for a specified event
- *
- * @param {String} name Name of the event
- * @param {Function} listener Run when the event is emitted
- * @param {Boolean} once If true, the listener will only be run once, use EventEmitter.once instead, this is mainly for internal use
- */
-EventEmitter.prototype.addListener = function(name, listener, once) {
-	// Grab the index of the listener
-	var index = this._listeners.length;
+    if (conf) {
+      this.wildcard = conf.wildcard;
+      this.delimiter = conf.delimiter || '.';
 
-	// Emit the newListener event
-	this.emit('newListener', name, listener);
+      if (this.wildcard) {
+        this.listenerTree = new Object;
+      }
+    }
+  }
 
-	// Add the listener
-	this._listeners.push({
-		listener: listener,
-		once: (once) ? true : false
-	});
+  function EventEmitter(conf) {
+    this._events = new Object;
+    configure.call(this, conf);
+  }
 
-	// Add the event to the events object if required
-	if(typeof this._events[name] === 'undefined') {
-		this._events[name] = [];
-	}
+  function searchListenerTree(handlers, type, tree, i) {
+    if (!tree) {
+      return;
+    }
 
-	// Add the listeners index to the event
-	this._events[name].push(index);
+    var listeners;
 
-	// Check if we have exceeded the max listeners
-	if(this._events[name].length === this._maxListeners[0]) {
-		// We have, let the developer know
-		console.log('Maximum number of listeners (' + this._maxListeners[0] + ') reached for the "' + name + '" event!');
-	}
-};
+    if (i === type.length && tree._listeners) {
+      //
+      // If at the end of the event(s) list and the tree has listeners
+      // invoke those listeners.
+      //
+      if (typeof tree._listeners === 'function') {
+        handlers && handlers.push(tree._listeners);
+        return tree;
+      } else {
+        for (var leaf = 0, len = tree._listeners.length; leaf < len; leaf++) {
+          handlers && handlers.push(tree._listeners[leaf]);
+        }
+        return tree;
+      }
+    }
 
-/**
- * Adds a listener for a specified event (alias of EventEmitter.addListener)
- *
- * @param {String} name Name of the event
- * @param {Function} listener Run when the event is emitted
- * @param {Boolean} once If true, the listener will only be run once, use EventEmitter.once instead, this is mainly for internal use
- */
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
+    if (type[i] === '*' || tree[type[i]]) {
+      //
+      // If the event emitted is '*' at this part
+      // or there is a concrete match at this patch
+      //
+      if (type[i] === '*') {
+        for (var branch in tree) {
+          if (branch !== '_listeners' && tree.hasOwnProperty(branch)) {
+            listeners = searchListenerTree(handlers, type, tree[branch], i+1);
+          }
+        }
+        return listeners;
+      }
 
-/**
- * Adds a listener for a specified event that will only be called once
- *
- * @param {String} name Name of the event
- * @param {Function} listener Run when the event is emitted
- */
-EventEmitter.prototype.once = function(name, listener) {
-	this.addListener(name, listener, true);
-};
-
-/**
- * Removes a listener for a specified event
- *
- * @param {String} name Name of the event
- * @param {Function} listener Reference to the listener function
- */
-EventEmitter.prototype.removeListener = function(name, listener) {
-	// Initialise any required variables
-	var i = null,
-		indexes = null;
-
-	// Make sure the event exists
-	if(this._events[name] instanceof Array) {
-		// Grab the listeners indexes
-		indexes = this._events[name];
-
-		// Loop through all of the indexes
-		for(i = 0; i < indexes.length; i++) {
-			// Check if we have found the listener
-			if(this._listeners[indexes[i]].listener === listener) {
-				// It is, remove it and return
-				indexes.splice(i, 1);
-			}
-		}
-	}
-};
-
-/**
- * Removes all the listeners for a specified event
- *
- * @param {String} name Name of the event
- */
-EventEmitter.prototype.removeAllListeners = function(name) {
-	this._events[name] = [];
-};
+      listeners = searchListenerTree(handlers, type, tree[type[i]], i+1);
+    }
 
 
-/**
- * Sets the max number of listeners before a message is displayed
- * If it is set to 0 then there is no limit
- *
- * @param {Number} n Max number of listeners before a message is displayed
- */
-EventEmitter.prototype.setMaxListeners = function(n) {
-	this._maxListeners[0] = n;
-};
+    if (tree['*']) {
+      //
+      // If the listener tree will allow any match for this part,
+      // then recursively explore all branches of the tree
+      //
+      searchListenerTree(handlers, type, tree['*'], i+1);
+    }
 
-/**
- * Returns an array of listeners for the specified event
- *
- * @param {String} name Name of the event
- * @param {Boolean} checkOnce Mainly for internal use, but if true, it will check if the once flag is set on the listener and remove it if it is
- * @returns {Array} An array of the assigned listeners
- */
-EventEmitter.prototype.listeners = function(name, checkOnce) {
-	// Initialise any required variables
-	var i = null,
-		built = [],
-		l = null;
+    return listeners;
+  };
 
-	// Make sure the event exists
-	if(this._events[name] instanceof Array) {
-		// Grab the listeners indexes
-		indexes = this._events[name];
+  function growListenerTree(type, listener) {
 
-		// Loop through all of the indexes
-		for(i = 0; i < indexes.length; i++) {
-			// Grab the listener
-			l = this._listeners[indexes[i]];
+    type = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
 
-			// To do, finish this
-			if(checkOnce) {
-				if(l.once) {
-					// Add it to the array
-					built.push(l.listener);
+    var tree = this.listenerTree;
+    var name = type.shift();
 
-					// Remove the reference
-					this._events[name].splice(i, 1);
-				}
-				else {
-					// Add it to the array
-					built.push(l.listener);
-				}
-			}
-			else {
-				// Add it to the array
-				built.push(l.listener);
-			}
-		}
-	}
+    while (name) {
 
-	// Return the found listeners
-	return built;
-};
+      if (!tree[name]) {
+        tree[name] = new Object;
+      }
 
-/**
- * Emits the specified event with optional arguments
- *
- * @param {String} name Name of the event to be emitted
- * @param {Mixed} An argument to be passed to the listeners, you can have as many of these as you want
- */
-EventEmitter.prototype.emit = function(name) {
-	// Initialise any required variables
-	var i = null,
-		args = Array.prototype.slice.call(arguments),
-		listeners = this.listeners(name, true);
+      tree = tree[name];
 
-	// Splice out the first argument
-	args.splice(0, 1);
+      if (type.length === 0) {
 
-	// Loop through the listeners
-	for(i = 0; i < listeners.length; i++) {
-		// Call the function
-		listeners[i].apply(null, args);
-	}
-};
+        if (!tree._listeners) {
+          tree._listeners = listener;
+        }
+        else if(typeof tree._listeners === 'function') {
+          tree._listeners = [tree._listeners, listener];
+        }
+        else if (isArray(tree._listeners)) {
+
+          tree._listeners.push(listener);
+
+          if (!tree._listeners.warned) {
+
+            var m = defaultMaxListeners;
+
+            if (m > 0 && tree._listeners.length > m) {
+
+              tree._listeners.warned = true;
+              console.error('(node) warning: possible EventEmitter memory ' +
+                            'leak detected. %d listeners added. ' +
+                            'Use emitter.setMaxListeners() to increase limit.',
+                            tree._listeners.length);
+              console.trace();
+            }
+          }
+        }
+        return true;
+      }
+      name = type.shift();
+    }
+    return true;
+  };
+
+  // By default EventEmitters will print a warning if more than
+  // 10 listeners are added to it. This is a useful default which
+  // helps finding memory leaks.
+  //
+  // Obviously not all Emitters should be limited to 10. This function allows
+  // that to be increased. Set to zero for unlimited.
+
+  EventEmitter.prototype.setMaxListeners = function(n) {
+    this._events || init.call(this);
+    this._events.maxListeners = n;
+  };
+
+  EventEmitter.prototype.event = '';
+
+  EventEmitter.prototype.once = function(event, fn) {
+    this.many(event, 1, fn);
+    return this;
+  };
+
+  EventEmitter.prototype.many = function(event, ttl, fn) {
+    var self = this;
+
+    if (typeof fn !== 'function') {
+      throw new Error('many only accepts instances of Function');
+    }
+
+    function listener() {
+      if (--ttl === 0) {
+        self.off(event, listener);
+      }
+      fn.apply(null, arguments);
+    };
+
+    listener._origin = fn;
+
+    this.on(event, listener);
+
+    return self;
+  };
+
+  EventEmitter.prototype.emit = function() {
+    this._events || init.call(this);
+
+    var type = arguments[0];
+
+    if (type === 'newListener') {
+      if (!this._events.newListener) { return false; }
+    }
+
+    // Loop through the *_all* functions and invoke them.
+    if (this._all) {
+      var l = arguments.length;
+      var args = new Array(l - 1);
+      for (var i = 1; i < l; i++) args[i - 1] = arguments[i];
+      for (i = 0, l = this._all.length; i < l; i++) {
+        this.event = type;
+        this._all[i].apply(this, args);
+      }
+    }
+
+    // If there is no 'error' event listener then throw.
+    if (type === 'error') {
+      
+      if (!this._all && 
+        !this._events.error && 
+        !(this.wildcard && this.listenerTree.error)) {
+
+        if (arguments[1] instanceof Error) {
+          throw arguments[1]; // Unhandled 'error' event
+        } else {
+          throw new Error("Uncaught, unspecified 'error' event.");
+        }
+        return false;
+      }
+    }
+
+    var handler;
+
+    if(this.wildcard) {
+      handler = [];
+      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+      searchListenerTree.call(this, handler, ns, this.listenerTree, 0);
+    }
+    else {
+      handler = this._events[type];
+    }
+
+    if (typeof handler === 'function') {
+      this.event = type;
+      if (arguments.length === 1) {
+        handler.call(this);
+      }
+      else if (arguments.length > 1)
+        switch (arguments.length) {
+          case 2:
+            handler.call(this, arguments[1]);
+            break;
+          case 3:
+            handler.call(this, arguments[1], arguments[2]);
+            break;
+          // slower
+          default:
+            var l = arguments.length;
+            var args = new Array(l - 1);
+            for (var i = 1; i < l; i++) args[i - 1] = arguments[i];
+            handler.apply(this, args);
+        }
+      return true;
+    }
+    else if (handler) {
+      var l = arguments.length;
+      var args = new Array(l - 1);
+      for (var i = 1; i < l; i++) args[i - 1] = arguments[i];
+
+      var listeners = handler.slice();
+      for (var i = 0, l = listeners.length; i < l; i++) {
+        this.event = type;
+        listeners[i].apply(this, args);
+      }
+      return true;
+    }
+
+  };
+
+  EventEmitter.prototype.on = function(type, listener) {
+    this._events || init.call(this);
+
+    // To avoid recursion in the case that type == "newListeners"! Before
+    // adding it to the listeners, first emit "newListeners".
+    this.emit('newListener', type, listener);
+
+    if(this.wildcard) {
+      growListenerTree.call(this, type, listener);
+      return this;
+    }
+
+    if (!this._events[type]) {
+      // Optimize the case of one listener. Don't need the extra array object.
+      this._events[type] = listener;
+    }
+    else if(typeof this._events[type] === 'function') {
+      // Adding the second element, need to change to array.
+      this._events[type] = [this._events[type], listener];
+    }
+    else if (isArray(this._events[type])) {
+      // If we've already got an array, just append.
+      this._events[type].push(listener);
+
+      // Check for listener leak
+      if (!this._events[type].warned) {
+
+        var m;
+        if (this._events.maxListeners !== undefined) {
+          m = this._events.maxListeners;
+        } else {
+          m = defaultMaxListeners;
+        }
+
+        if (m && m > 0 && this._events[type].length > m) {
+
+          this._events[type].warned = true;
+          console.error('(node) warning: possible EventEmitter memory ' +
+                        'leak detected. %d listeners added. ' +
+                        'Use emitter.setMaxListeners() to increase limit.',
+                        this._events[type].length);
+          console.trace();
+        }
+      }
+    }
+    return this;
+  };
+
+  EventEmitter.prototype.onAny = function(fn) {
+
+    if(!this._all) {
+      this._all = [];
+    }
+
+    if (typeof fn !== 'function') {
+      throw new Error('onAny only accepts instances of Function');
+    }
+
+    // Add the function to the event listener collection.
+    this._all.push(fn);
+    return this;
+  };
+
+  EventEmitter.prototype.addListener = EventEmitter.prototype.on;
+
+  EventEmitter.prototype.off = function(type, listener) {
+    if (typeof listener !== 'function') {
+      throw new Error('removeListener only takes instances of Function');
+    }
+
+    var handlers;
+
+    if(this.wildcard) {
+      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+      var leaf = searchListenerTree.call(this, null, ns, this.listenerTree, 0);
+
+      if('undefined' === typeof leaf) { return this; }
+      handlers = leaf._listeners;
+    }
+    else {
+      // does not use listeners(), so no side effect of creating _events[type]
+      if (!this._events[type]) return this;
+      handlers = this._events[type];
+    }
+
+    if (isArray(handlers)) {
+
+      var position = -1;
+
+      for (var i = 0, length = handlers.length; i < length; i++) {
+        if (handlers[i] === listener ||
+          (handlers[i].listener && handlers[i].listener === listener) ||
+          (handlers[i]._origin && handlers[i]._origin === listener)) {
+          position = i;
+          break;
+        }
+      }
+
+      if (position < 0) {
+        return this;
+      }
+
+      if(this.wildcard) {
+        leaf._listeners.splice(position, 1)
+      }
+      else {
+        this._events[type].splice(position, 1);
+      }
+
+      if (handlers.length === 0) {
+        if(this.wildcard) {
+          delete leaf._listeners;
+        }
+        else {
+          delete this._events[type];
+        }
+      }
+    }
+    else if (handlers === listener ||
+      (handlers.listener && handlers.listener === listener) ||
+      (handlers._origin && handlers._origin === listener)) {
+      if(this.wildcard) {
+        delete leaf._listeners;
+      }
+      else {
+        delete this._events[type];
+      }
+    }
+
+    return this;
+  };
+
+  EventEmitter.prototype.offAny = function(fn) {
+    var i = 0, l = 0, fns;
+    if (fn && this._all && this._all.length > 0) {
+      fns = this._all;
+      for(i = 0, l = fns.length; i < l; i++) {
+        if(fn === fns[i]) {
+          fns.splice(i, 1);
+          return this;
+        }
+      }
+    } else {
+      this._all = [];
+    }
+    return this;
+  };
+
+  EventEmitter.prototype.removeListener = EventEmitter.prototype.off;
+
+  EventEmitter.prototype.removeAllListeners = function(type) {
+    if (arguments.length === 0) {
+      !this._events || init.call(this);
+      return this;
+    }
+
+    if(this.wildcard) {
+      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+      var leaf = searchListenerTree.call(this, null, ns, this.listenerTree, 0);
+
+      if('undefined' === typeof leaf) { return this; }
+      leaf._listeners = null;
+    }
+    else {
+      if (!this._events[type]) return this;
+      this._events[type] = null;
+    }
+    return this;
+  };
+
+  EventEmitter.prototype.listeners = function(type) {
+    if(this.wildcard) {
+      var handlers = [];
+      var ns = typeof type === 'string' ? type.split(this.delimiter) : type.slice();
+      searchListenerTree.call(this, handlers, ns, this.listenerTree, 0);
+      return handlers;
+    }
+
+    this._events || init.call(this);
+
+    if (!this._events[type]) this._events[type] = [];
+    if (!isArray(this._events[type])) {
+      this._events[type] = [this._events[type]];
+    }
+    return this._events[type];
+  };
+
+  EventEmitter.prototype.listenersAny = function() {
+
+    if(this._all) {
+      return this._all;
+    }
+    else {
+      return [];
+    }
+
+  };
+
+  exports.EventEmitter = EventEmitter;
+
+})(typeof exports === 'undefined' ? window : exports);

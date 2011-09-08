@@ -1,10 +1,61 @@
 
-function EventEmitter(){}
-EventEmitter.prototype._events={};EventEmitter.prototype._listeners=[];EventEmitter.prototype._maxListeners=[10];EventEmitter.prototype.addListener=function(name,listener,once){var index=this._listeners.length;this.emit('newListener',name,listener);this._listeners.push({listener:listener,once:(once)?true:false});if(typeof this._events[name]==='undefined'){this._events[name]=[];}
-this._events[name].push(index);if(this._events[name].length===this._maxListeners[0]){console.log('Maximum number of listeners ('+this._maxListeners[0]+') reached for the "'+name+'" event!');}};EventEmitter.prototype.on=EventEmitter.prototype.addListener;EventEmitter.prototype.once=function(name,listener){this.addListener(name,listener,true);};EventEmitter.prototype.removeListener=function(name,listener){var i=null,indexes=null;if(this._events[name]instanceof Array){indexes=this._events[name];for(i=0;i<indexes.length;i++){if(this._listeners[indexes[i]].listener===listener){indexes.splice(i,1);}}}};EventEmitter.prototype.removeAllListeners=function(name){this._events[name]=[];};EventEmitter.prototype.setMaxListeners=function(n){this._maxListeners[0]=n;};EventEmitter.prototype.listeners=function(name,checkOnce){var i=null,built=[],l=null;if(this._events[name]instanceof Array){indexes=this._events[name];for(i=0;i<indexes.length;i++){l=this._listeners[indexes[i]];if(checkOnce){if(l.once){built.push(l.listener);this._events[name].splice(i,1);}
-else{built.push(l.listener);}}
-else{built.push(l.listener);}}}
-return built;};EventEmitter.prototype.emit=function(name){var i=null,args=Array.prototype.slice.call(arguments),listeners=this.listeners(name,true);args.splice(0,1);for(i=0;i<listeners.length;i++){listeners[i].apply(null,args);}};
+(function(exports,undefined){var isArray=Array.isArray?Array.isArray:function _isArray(obj){return Object.prototype.toString.call(obj)==="[object Array]";};var defaultMaxListeners=10;function init(){this._events=new Object;}
+function configure(conf){if(conf){this.wildcard=conf.wildcard;this.delimiter=conf.delimiter||'.';if(this.wildcard){this.listenerTree=new Object;}}}
+function EventEmitter(conf){this._events=new Object;configure.call(this,conf);}
+function searchListenerTree(handlers,type,tree,i){if(!tree){return;}
+var listeners;if(i===type.length&&tree._listeners){if(typeof tree._listeners==='function'){handlers&&handlers.push(tree._listeners);return tree;}else{for(var leaf=0,len=tree._listeners.length;leaf<len;leaf++){handlers&&handlers.push(tree._listeners[leaf]);}
+return tree;}}
+if(type[i]==='*'||tree[type[i]]){if(type[i]==='*'){for(var branch in tree){if(branch!=='_listeners'&&tree.hasOwnProperty(branch)){listeners=searchListenerTree(handlers,type,tree[branch],i+1);}}
+return listeners;}
+listeners=searchListenerTree(handlers,type,tree[type[i]],i+1);}
+if(tree['*']){searchListenerTree(handlers,type,tree['*'],i+1);}
+return listeners;};function growListenerTree(type,listener){type=typeof type==='string'?type.split(this.delimiter):type.slice();var tree=this.listenerTree;var name=type.shift();while(name){if(!tree[name]){tree[name]=new Object;}
+tree=tree[name];if(type.length===0){if(!tree._listeners){tree._listeners=listener;}
+else if(typeof tree._listeners==='function'){tree._listeners=[tree._listeners,listener];}
+else if(isArray(tree._listeners)){tree._listeners.push(listener);if(!tree._listeners.warned){var m=defaultMaxListeners;if(m>0&&tree._listeners.length>m){tree._listeners.warned=true;console.error('(node) warning: possible EventEmitter memory '+'leak detected. %d listeners added. '+'Use emitter.setMaxListeners() to increase limit.',tree._listeners.length);console.trace();}}}
+return true;}
+name=type.shift();}
+return true;};EventEmitter.prototype.setMaxListeners=function(n){this._events||init.call(this);this._events.maxListeners=n;};EventEmitter.prototype.event='';EventEmitter.prototype.once=function(event,fn){this.many(event,1,fn);return this;};EventEmitter.prototype.many=function(event,ttl,fn){var self=this;if(typeof fn!=='function'){throw new Error('many only accepts instances of Function');}
+function listener(){if(--ttl===0){self.off(event,listener);}
+fn.apply(null,arguments);};listener._origin=fn;this.on(event,listener);return self;};EventEmitter.prototype.emit=function(){this._events||init.call(this);var type=arguments[0];if(type==='newListener'){if(!this._events.newListener){return false;}}
+if(this._all){var l=arguments.length;var args=new Array(l-1);for(var i=1;i<l;i++)args[i-1]=arguments[i];for(i=0,l=this._all.length;i<l;i++){this.event=type;this._all[i].apply(this,args);}}
+if(type==='error'){if(!this._all&&!this._events.error&&!(this.wildcard&&this.listenerTree.error)){if(arguments[1]instanceof Error){throw arguments[1];}else{throw new Error("Uncaught, unspecified 'error' event.");}
+return false;}}
+var handler;if(this.wildcard){handler=[];var ns=typeof type==='string'?type.split(this.delimiter):type.slice();searchListenerTree.call(this,handler,ns,this.listenerTree,0);}
+else{handler=this._events[type];}
+if(typeof handler==='function'){this.event=type;if(arguments.length===1){handler.call(this);}
+else if(arguments.length>1)
+switch(arguments.length){case 2:handler.call(this,arguments[1]);break;case 3:handler.call(this,arguments[1],arguments[2]);break;default:var l=arguments.length;var args=new Array(l-1);for(var i=1;i<l;i++)args[i-1]=arguments[i];handler.apply(this,args);}
+return true;}
+else if(handler){var l=arguments.length;var args=new Array(l-1);for(var i=1;i<l;i++)args[i-1]=arguments[i];var listeners=handler.slice();for(var i=0,l=listeners.length;i<l;i++){this.event=type;listeners[i].apply(this,args);}
+return true;}};EventEmitter.prototype.on=function(type,listener){this._events||init.call(this);this.emit('newListener',type,listener);if(this.wildcard){growListenerTree.call(this,type,listener);return this;}
+if(!this._events[type]){this._events[type]=listener;}
+else if(typeof this._events[type]==='function'){this._events[type]=[this._events[type],listener];}
+else if(isArray(this._events[type])){this._events[type].push(listener);if(!this._events[type].warned){var m;if(this._events.maxListeners!==undefined){m=this._events.maxListeners;}else{m=defaultMaxListeners;}
+if(m&&m>0&&this._events[type].length>m){this._events[type].warned=true;console.error('(node) warning: possible EventEmitter memory '+'leak detected. %d listeners added. '+'Use emitter.setMaxListeners() to increase limit.',this._events[type].length);console.trace();}}}
+return this;};EventEmitter.prototype.onAny=function(fn){if(!this._all){this._all=[];}
+if(typeof fn!=='function'){throw new Error('onAny only accepts instances of Function');}
+this._all.push(fn);return this;};EventEmitter.prototype.addListener=EventEmitter.prototype.on;EventEmitter.prototype.off=function(type,listener){if(typeof listener!=='function'){throw new Error('removeListener only takes instances of Function');}
+var handlers;if(this.wildcard){var ns=typeof type==='string'?type.split(this.delimiter):type.slice();var leaf=searchListenerTree.call(this,null,ns,this.listenerTree,0);if('undefined'===typeof leaf){return this;}
+handlers=leaf._listeners;}
+else{if(!this._events[type])return this;handlers=this._events[type];}
+if(isArray(handlers)){var position=-1;for(var i=0,length=handlers.length;i<length;i++){if(handlers[i]===listener||(handlers[i].listener&&handlers[i].listener===listener)||(handlers[i]._origin&&handlers[i]._origin===listener)){position=i;break;}}
+if(position<0){return this;}
+if(this.wildcard){leaf._listeners.splice(position,1)}
+else{this._events[type].splice(position,1);}
+if(handlers.length===0){if(this.wildcard){delete leaf._listeners;}
+else{delete this._events[type];}}}
+else if(handlers===listener||(handlers.listener&&handlers.listener===listener)||(handlers._origin&&handlers._origin===listener)){if(this.wildcard){delete leaf._listeners;}
+else{delete this._events[type];}}
+return this;};EventEmitter.prototype.offAny=function(fn){var i=0,l=0,fns;if(fn&&this._all&&this._all.length>0){fns=this._all;for(i=0,l=fns.length;i<l;i++){if(fn===fns[i]){fns.splice(i,1);return this;}}}else{this._all=[];}
+return this;};EventEmitter.prototype.removeListener=EventEmitter.prototype.off;EventEmitter.prototype.removeAllListeners=function(type){if(arguments.length===0){!this._events||init.call(this);return this;}
+if(this.wildcard){var ns=typeof type==='string'?type.split(this.delimiter):type.slice();var leaf=searchListenerTree.call(this,null,ns,this.listenerTree,0);if('undefined'===typeof leaf){return this;}
+leaf._listeners=null;}
+else{if(!this._events[type])return this;this._events[type]=null;}
+return this;};EventEmitter.prototype.listeners=function(type){if(this.wildcard){var handlers=[];var ns=typeof type==='string'?type.split(this.delimiter):type.slice();searchListenerTree.call(this,handlers,ns,this.listenerTree,0);return handlers;}
+this._events||init.call(this);if(!this._events[type])this._events[type]=[];if(!isArray(this._events[type])){this._events[type]=[this._events[type]];}
+return this._events[type];};EventEmitter.prototype.listenersAny=function(){if(this._all){return this._all;}
+else{return[];}};exports.EventEmitter=EventEmitter;})(typeof exports==='undefined'?window:exports);
 if(typeof MBX=='undefined'){if(typeof _=='undefined'){throw new Error("Mamoo depends upon the underscore library");}
 if(typeof EventEmitter=='undefined'){throw new Error("Mamoo depends upon the EventEmitter library");}
 MBX={};_(MBX).extend(EventEmitter.prototype);}
@@ -32,7 +83,7 @@ return obj;}else{throw new Error("trying to create an instance of "+this.modelNa
 if(this.find(instance.get(this.primaryKey))){return false;}}
 return true;},extendInstances:function(attrs){attrs=attrs||{};_(this.prototypeObject).extend(attrs);},cacheInstance:function(instance){if(this.primaryKey){this.instanceCache[instance.get(this.primaryKey)]=instance;}else{this.instanceCache[instance.GUID]=instance;}},find:function(primaryKey){return this.instanceCache[primaryKey];},findAll:function(){return _(this.instanceCache).values();},flush:function(){this.instanceCache={};},count:function(){return this.findAll().length;},set:function(key,value){var changed=false;if(this.attributes[key]!=value){changed=true;}
 this.attributes[key]=value;if(changed){this._fireChangeEvent(key);}},touch:function(key){this._fireChangeEvent(key);},get:function(key){return this.attributes[key];},onInstanceCreate:function(func){return MBX.on(this.Event.newInstance,func);},onInstanceDestroy:function(func){return MBX.on(this.Event.destroyInstance,func);},onInstanceChange:function(func){return MBX.on(this.Event.changeInstance,func);},onAttributeChange:function(func){return MBX.on(this.Event.changeAttribute,func);},_fireChangeEvent:function(key){MBX.emit(this.Event.changeAttribute,{object:this,key:key});this.emit(key+"_changed",{object:this});}};_(JsModel.prototype).extend(EventEmitter.prototype);publicObj.Event={newModel:"new_model"};publicObj.create=function(name,opts){return new JsModel(name,opts);};publicObj.nextGUID=function(){return currentGUID++;};publicObj.extend=function(methsAndAttrs){methsAndAttrs=methsAndAttrs||{};_(JsModel.prototype).extend(methsAndAttrs);};publicObj.extendInstancePrototype=function(methsAndAttrs){_(oneJsModelInstance).extend(methsAndAttrs);};publicObj.destroyModel=function(name){delete modelCache[name];};return publicObj;})();
-(function(){var Binder=function(modelObj,modelKey,targetObj,targetAttribute,opts){opts=opts||{};this.targetObj=targetObj;this.modelObj=modelObj;this.modelKey=modelKey;this.targetAttribute=targetAttribute;this.opts=opts;this.eventKey=this.modelKey+"_changed";this.handleChange=_(this.handleChange).bind(this);return this;};Binder.prototype.handleChange=function(payload){var data=this.modelObj.get(this.modelKey);if(this.opts.preProcess){data=this.opts.preProcess(data);}
+(function(){var id=0;var Binder=function(modelObj,modelKey,targetObj,targetAttribute,opts){opts=opts||{};this.id=id;id++;this.targetObj=targetObj;this.modelObj=modelObj;this.modelKey=modelKey;this.targetAttribute=targetAttribute;this.opts=opts;this.eventKey=this.modelKey+"_changed";this.handleChange=_(this.handleChange).bind(this);return this;};Binder.prototype.handleChange=function(payload){var data=this.modelObj.get(this.modelKey);console.log("handling change",payload,this);if(this.opts.preProcess){data=this.opts.preProcess(data);}
 if(this.opts.handler){this.opts.handler(data,this.targetObj,this.targetAttribute,this.modelObj,this.modelKey);}else{this.targetObj[this.targetAttribute]=data;}};Binder.prototype.listen=function(){this.modelObj.on(this.eventKey,this.handleChange);return this;};Binder.prototype.stopUpdating=function(){this.modelObj.removeListener(this.eventKey,this.handleChange);};var updaterFunc=function(key,opts){var binder=new Binder(this,key,opts.object,opts.attribute,opts);binder.listen();return binder;};MBX.JsModel.extend({updatesOn:updaterFunc});MBX.JsModel.extendInstancePrototype({updatesOn:updaterFunc})})();
 MBX.JsView=(function(){var self={};var View=function(opts){opts=opts||{};_(this).extend(opts);if(this.model){this._subscribeToEvents();}
 if(typeof this.initialize=='function'){this.initialize();}};View.prototype={active:true,activate:function(){this.active=true;},deactivate:function(){this.active=false;},_onInstanceChange:function(evt){if(this.active&&typeof this.onInstanceChange=='function'){this.onInstanceChange(evt.object,evt.key);}},_onInstanceCreate:function(evt){if(this.active&&typeof this.onInstanceCreate=='function'){this.onInstanceCreate(evt.object);}},_onInstanceDestroy:function(evt){if(this.active&&typeof this.onInstanceDestroy=='function'){this.onInstanceDestroy(evt.object);}},_onAttributeChange:function(evt){if(this.active&&typeof this.onAttributeChange=='function'){this.onAttributeChange(evt.key);}},_subscribeToEvents:function(){var changeEvent=this.model.Event.changeInstance;var newEvent=this.model.Event.newInstance;var destroyEvent=this.model.Event.destroyInstance;var attributeEvent=this.model.Event.changeAttribute;var defer=this.looselyCoupled;MBX.on(changeEvent,_(this._onInstanceChange).bind(this));MBX.on(newEvent,_(this._onInstanceCreate).bind(this));MBX.on(destroyEvent,_(this._onInstanceDestroy).bind(this));MBX.on(attributeEvent,_(this._onAttributeChange).bind(this));}};self.create=function(opts){return new View(opts);};self.extend=function(methsAndAttrs){methsAndAttrs=methsAndAttrs||{};_(View.prototype).extend(methsAndAttrs);};_(View.prototype).extend(EventEmitter.prototype);return self;})();

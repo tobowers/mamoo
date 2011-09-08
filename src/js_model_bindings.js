@@ -11,7 +11,6 @@
         this.targetAttribute = targetAttribute;
         this.opts = opts;
         this.eventKey = this.modelKey + "_changed";
-        console.log("creating a binder for handling: " + this.eventKey + "on", modelObj);
         this.handleChange = _(this.handleChange).bind(this);
         return this;
     };
@@ -31,7 +30,6 @@
     };
 
     Binder.prototype.listen = function () {
-//        console.log("listening to", this.eventKey);
         this.modelObj.on(this.eventKey, this.handleChange);
         return this;
     };

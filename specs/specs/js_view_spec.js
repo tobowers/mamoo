@@ -274,6 +274,20 @@ Screw.Unit(function() {
                 expect(onInstanceDestroyCalled).to(equal, instance);
             });
             
+            it("should listen to destroyInstance calls when a controller is also listening", function () {
+                var controllerDestroyedInstance;
+                var controller = MBX.JsController.create("TestController", {
+                    model: MyModel,
+                    onInstanceDestroy: function (inst) {
+                        controllerDestroyedInstance = inst;
+                    }
+                });
+                instance.destroy();
+                expect(onInstanceDestroyCalled).to(equal, instance);
+                expect(controllerDestroyedInstance).to(equal, instance);
+                MBX.JsController.destroyController('TestController');
+            });
+            
             it("should listen to changeAttribute calls", function () {
                 MyModel.set("hi", "bye");
                 expect(onAttributeChangeCalled).to(equal, "hi");

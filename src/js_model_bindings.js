@@ -18,7 +18,6 @@
     //handler receives (payload, targetObj, targetAttribute, model, key);
     Binder.prototype.handleChange = function (payload) {
         var data = this.modelObj.get(this.modelKey);
-        console.log("handling change", payload, this);
         if (this.opts.preProcess) {
             data = this.opts.preProcess(data);
         }
